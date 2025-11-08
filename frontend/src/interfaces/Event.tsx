@@ -1,5 +1,4 @@
 import type { EventState } from "../enums/EventState.enum";
-import type { Organization, Volunteer } from "./User";
 
 export default interface Event{
     eventId: String,
@@ -7,7 +6,12 @@ export default interface Event{
     description: String,
     location: String,
     time: String,
-    organization: Organization,
-    volunteers: Volunteer[],
+    organizationLabel: String,
+    volunteers: VolunteerDto[],
     currentState: EventState,
+}
+
+export interface VolunteerDto{
+    userId: String,
+    username: String
 }

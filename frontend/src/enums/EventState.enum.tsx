@@ -1,6 +1,6 @@
 export enum EventState{
-    Pending = "Pending",
-    Approved = "Approved",
-    Denied = "Denied",
-    Completed = "Completed"
+    PENDING = "Pending",
+    APPROVED = "Approved",
+    DENIED = "Denied",
+    COMPLETED = "Completed"
 }
