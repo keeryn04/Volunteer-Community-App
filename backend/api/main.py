@@ -17,7 +17,7 @@ app.include_router(router)
 # Test routes
 @app.get("/api/test")
 def get_test():
-    return {"message": "test"}
+    return {"message": "testing"}
 
 @app.get("/api/test/{param}")
 def get_test_param(param: str):
