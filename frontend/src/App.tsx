@@ -2,9 +2,15 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
 import Test from './pages/Test.tsx'
 import Volunteer from './pages/UserPages/VolunteerBoard.tsx'
+
+//Themeing
+import { ThemeProvider } from '@emotion/react'
+import theme from './Theme.tsx'
+
+//Pages
+import LoginPage from './pages/GeneralPages/Login.tsx'
 
 function Home() {
   const [count, setCount] = useState(0)
@@ -47,13 +53,15 @@ function Home() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/volunteerBoard" element={<Volunteer />} />
-        <Route path="/test" element={<Test />} />
-      </Routes>
-    </BrowserRouter>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/volunteerBoard" element={<Volunteer />} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   )
 }
 
