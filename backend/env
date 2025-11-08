@@ -1,0 +1,3 @@
+# MongoDB connection details
+MONGODB_URI="mongodb+srv://db_admin:testing123@htc2025-volunteer-commu.g5pln3r.mongodb.net/?appName=HTC2025-Volunteer-Community-App"
+DB_NAME="HTC2025-Volunteer-Community-App"
