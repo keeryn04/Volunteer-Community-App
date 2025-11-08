@@ -17,7 +17,7 @@ def connect_to_mongo():
         client = MongoClient(uri, server_api=ServerApi("1"))
         client.admin.command("ping")
         db = client[db_name]
-        print("✅ Connected to MongoDB!")
+        print("✅ Connected to MongoDB! 🥭")
     except Exception as e:
         print("❌ MongoDB connection failed:", e)
 
