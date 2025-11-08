@@ -3,9 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-
-// Placeholder for Test component
-const Test = () => <div>Test Page</div>
+import Test from './pages/Test.tsx'
 
 function Home() {
   const [count, setCount] = useState(0)
