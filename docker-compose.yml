@@ -1,0 +1,36 @@
+services:
+  #Frontend service
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+    
+    #Forward host port 5173 to container port 5173
+    ports: 
+      - "5173:5173"
+    volumes:
+      - ./Frontend:/app/frontend
+      - /app/frontend/node_modules
+    
+    #Waits for the backend to start
+    depends_on:
+    - backend
+
+    #Starts the frontend server using the following command
+    command: ["npm", "run", "dev"]
+
+  #Backend service
+  backend:
+    build:
+      context: ./backend
+      dockerfile: dockerfile
+
+    #Forward host port 8000 to container port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app/api
+
+    #Starts the backend server using the following command
+    command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+      
