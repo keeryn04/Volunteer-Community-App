@@ -70,6 +70,10 @@ def event_response():
 @router.post("/{user_id}/events/apply")
 def create_event_apply(data: EventApplyRequest, user_id: str):
     #database update, event update between volunteer and event using user_id and event_id
+    #want to add user_id to list of volunteers tied to that event, so add volunteer with userId and username to list of volunteers in event
+    #
+    #{"userId": "2", "username": "robert"} <-- add this to event 3 if robert signed up for event 3
+    #
     event_id = data.eventId
     successful = True
 
@@ -113,6 +117,10 @@ def get_volunteer_rewards():
 @router.post("/{user_id}/rewards/claim")
 def create_reward_claim(data: RewardClaimRequest, user_id: str):
     #database update, reward update between volunteer and reward using user_id and reward_id
+    #want to add reward_id to list of volunteer's rewards, so add reward to rewards list of user
+    #
+    #{"rewardId": "3"} <-- add this to robert (userId 2) to say he has 'claimed' reward 3
+    #
     reward_id = data.rewardId
     successful = True
 
@@ -122,21 +130,21 @@ def create_reward_claim(data: RewardClaimRequest, user_id: str):
         raise HTTPException(status_code=400, detail="Event Application Error")
 
 def get_user_type(user_id: str):
-    #database call for user type
+    #database call for user type, return the users type from userType
     if (user_id == "1"):
         user_type = "admin"
     
     return user_type
 
 def get_user_event_ids(user_id: str):
-    #database call for user events based on id
+    #database call for user events based on id, return list of eventIds based on the userId associated
     if (user_id == "1"):
         user_events = ["0", "2", "3"]
     
     return user_events
 
 def get_user_rewards_ids(user_id: str):
-    #database call for reward ids and user points based on user id
+    #database call for reward ids and user points based on user id, return list of rewardIds and the user's points based on the userId associated
     if (user_id == "1"):
         user_points = 200
         user_rewards = ["1", "2", "3"]
