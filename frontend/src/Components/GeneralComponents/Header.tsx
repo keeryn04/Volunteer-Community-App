@@ -60,7 +60,6 @@ const Header: React.FC = () => {
   return (
     <AppBar
       position="static"
-      color="default"
       elevation={2}
       sx={{
         position: "fixed",
@@ -70,6 +69,7 @@ const Header: React.FC = () => {
         left: 0,
         overflowX: "hidden",
         margin: 0,
+        bgcolor: "#123D33",
       }}
     >
       <Toolbar sx={{ position: "relative", justifyContent: "space-between" }}>
@@ -106,6 +106,7 @@ const Header: React.FC = () => {
             left: "50%",
             transform: "translateX(-50%)",
             fontWeight: 600,
+            color: "#FAF8F7"
           }}
         >
           SideQuest
