@@ -50,7 +50,7 @@ const EventCard: React.FC<EventCardProps> = ({event}) => {
                         component="img"
                         src={event.eventImg?.toString() || "/EventImgPlaceholder.jpg"}
                         alt={"Img not found"}
-                        sx={{ objectFit: "cover", width:"100%", height:"auto" }}
+                        sx={{ objectFit: "cover", width:"100%", height:"auto", maxHeight:"300px" }}
                     />
 
                     {/* Text Content */}

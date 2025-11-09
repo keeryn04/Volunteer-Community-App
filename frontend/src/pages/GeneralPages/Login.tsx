@@ -1,9 +1,10 @@
 import { Box, TextField, Typography, Button } from "@mui/material"
 import { useState } from "react";
-import { userLogin } from "../../services/user.service";
+import { getUserDetails, userLogin } from "../../services/user.service";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import type { CookieValues } from "../../interfaces/Cookies";
+import { UserType, type User } from "../../interfaces/User";
 const LoginPage = () => {
     const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
     
@@ -27,7 +28,16 @@ const LoginPage = () => {
         tomorrow.setDate(today.getDate() + 1);
         
         setCookie('USER_ID', userId, {expires: tomorrow});
-        navigate('/volunteer');
+
+        //Check the type of the user
+        const user = (await getUserDetails(userId))
+
+        console.log(user)
+
+        if (user.userType.toString() == "Organization")
+            navigate('/volunteer');
+        else
+            navigate('/myEvents');
     }
     
     return(
@@ -38,7 +48,7 @@ const LoginPage = () => {
             flexDirection: "column",
             minHeight: "100vh",
             minWidth: "100vw",
-            backgroundColor: "#191919", // dark base background
+            backgroundColor: "#ebebebff", // dark base background
             justifyContent: "center",
             color: "#FAF8F7",
         }}
@@ -47,15 +57,19 @@ const LoginPage = () => {
         <Box
             sx={{
             backgroundColor: "#13625B", // teal-green accent
+            display:"flex",
+            alignItems:"center",
             padding: "20px 50px",
             marginBottom: "20px",
             borderRadius: "40px",
             boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)",
             }}
         >
+            <img  width="70px" height="auto" src="/SideQuest_Logo-Circle.png"/>
             <Typography
             variant="h1"
             sx={{
+                marginLeft:"10px",
                 fontSize: "3rem",
                 fontWeight: 700,
                 letterSpacing: "2px",
@@ -73,7 +87,7 @@ const LoginPage = () => {
             variant="h5"
             textAlign="center"
             sx={{
-            color: "#8BC86F",
+            color: "#51813bff",
             marginBottom: "40px",
             fontWeight: 400,
             }}
