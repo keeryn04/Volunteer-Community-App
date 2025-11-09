@@ -5,7 +5,7 @@ import type ClaimRewardRequest from '../../interfaces/api/request/ClaimRewardReq
 
 const API_BASE_URL = '/api';
 
-export async function getUserRewards(userId: String): Promise<GetUserRewardsResponse | undefined>{
+export async function getUserRewardsApi(userId: String): Promise<GetUserRewardsResponse | undefined>{
     try{
         const response = await axios.get(`${API_BASE_URL}/${userId}/rewards`)
         return response.data;
@@ -13,7 +13,7 @@ export async function getUserRewards(userId: String): Promise<GetUserRewardsResp
         console.error('Error', error);
     }
 }
-export async function getAllRewards(): Promise<GetAllRewardsResponse | undefined>{
+export async function getAllRewardsApi(): Promise<GetAllRewardsResponse | undefined>{
     try{
         const response = await axios.get(`${API_BASE_URL}/rewards`)
         return response.data;
@@ -21,7 +21,7 @@ export async function getAllRewards(): Promise<GetAllRewardsResponse | undefined
         console.error('Error', error);
     }
 }
-export async function redeemReward(userId: String, rewardId: String){
+export async function redeemRewardApi(userId: String, rewardId: String){
     try{
         const requestBody: ClaimRewardRequest = {
             rewardId: rewardId,
