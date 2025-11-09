@@ -28,6 +28,7 @@ const handleSignOut = () => {
       elevation={2}
       sx={{
         position: "fixed",
+        zIndex: 2,
         top: 0,
         width: "100vw",        
         left: 0,
