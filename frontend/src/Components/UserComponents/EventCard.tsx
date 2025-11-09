@@ -27,7 +27,7 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
+    const [cookies] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
 
     const handleApply = async () => {
         const userId: String = cookies.USER_ID;
@@ -55,7 +55,7 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                     width: 600,
                     borderRadius: 3,
                     boxShadow: 3,
-                    position: "absolute" as "absolute",
+                    position: "absolute",
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)"
@@ -64,7 +64,7 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                     {/* Top Image */}
                     <CardMedia
                         component="img"
-                        image={"/EventImgPlaceholder.jpg"}
+                        image={event.eventImg?.toString() || "/EventImgPlaceholder.jpg"}
                         alt={"Img not found"}
                         sx={{ objectFit: "cover", width:"100%", height:"auto" }}
                     />
@@ -123,7 +123,7 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                 <CardMedia
                     component="img"
                     height="200"
-                    image={"/EventImgPlaceholder.jpg"}
+                    src={event.eventImg?.toString() || "/EventImgPlaceholder.jpg"}
                     alt={"Img not found"}
                     sx={{ objectFit: "cover" }}
                 />
