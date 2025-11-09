@@ -15,22 +15,20 @@ import theme from './Theme.tsx'
 import LoginPage from './pages/GeneralPages/Login.tsx'
 
 
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CookiesProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            <Route path="/volunteer" element={<Volunteer />} />
-            <Route path="/rewards" element={<Rewards />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/myEvents" element={<MyEvents />} />
-            <Route path="/createEvent" element={<CreateEvent />} />
-            <Route path="/test" element={<Test />} />
-          </Routes>
-        </BrowserRouter>
-      </CookiesProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/volunteer" element={<Volunteer />} />
+          <Route path="/rewards" element={<Rewards />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/createEvent" element={<CreateEvent/>} />
+          <Route path="/test" element={<Test />} />
+        </Routes>
+      </BrowserRouter>
     </ThemeProvider>
   )
 }
