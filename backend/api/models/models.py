@@ -78,6 +78,7 @@ class UserDataResponse(BaseModel):
     username: str
     hours: int
     points: int
+    userType: str
 
 class EventCreateRequest(BaseModel):
     title: str
