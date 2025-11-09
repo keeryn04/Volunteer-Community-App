@@ -68,23 +68,25 @@ const RewardsStore: React.FC = () => {
       >
         <Box
           sx={{
-            backgroundColor: "#FFD700", // gold
+            backgroundColor: "#8BC86F", // green
             borderRadius: "16px",
             padding: "8px 20px",
             boxShadow: 2,
+            marginLeft:"88px",
+            marginTop: "12px"
           }}
         >
           <Typography
             variant="h6"
             component="div"
-            color="black"
+            color="#191919"
             sx={{ fontWeight: 600 }}
           >
             POINTS: {userPoints && userPoints.toString()}
           </Typography>
         </Box>
       </Box>
-        <Box width="100%" height="100%" sx={{display:"flex", justifyContent:"center"}}>
+        <Box maxWidth="100%" maxHeight="100%" padding="48px" sx={{display:"flex", justifyContent:"center"}}>
           <Grid container rowSpacing={6} columnSpacing={7} justifyContent="center">
             {loadedRewards && loadedRewards.map((item, index) => (
               <Grid key={index}>

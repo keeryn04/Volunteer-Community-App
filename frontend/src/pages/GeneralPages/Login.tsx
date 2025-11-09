@@ -9,14 +9,18 @@ const LoginPage = () => {
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [inputError, setInputError] = useState(false);
 
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const userId: String = (await userLogin(username, password)).userId
-        if(userId === "-1")
+        if(userId === "-1"){   
+            setInputError(true);         
             return null;
+        }
+        setInputError(false);
         //Setting expiry date for tomorrow (24hrs from now)
         const today: Date = new Date();
         const tomorrow: Date = new Date(today);
@@ -27,47 +31,151 @@ const LoginPage = () => {
     }
     
     return(
-        <Box sx={{display:"flex", alignItems:"center", flexDirection:"column"}}>
-            {/* Title */}
-            <Box bgcolor="primary.main" sx={{padding:"20px", margin:"10px", borderRadius:"50px"}}>
-                <Typography variant="h1" >Side Quest</Typography>
-            </Box>
-
-            {/* Subtitle */}
-            <Typography width="550px" variant="h4" textAlign="center">A volunteering opportunities dashboard</Typography>
-
-            {/* Login Section */}
-            <Box 
-                width="550px" 
-                sx={{display:"flex", flexDirection:"column", margin:"10px", alignItems:"center"}}
-                component="form"
-                onSubmit={handleSubmit}    
+        <Box
+        sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+            minHeight: "100vh",
+            minWidth: "100vw",
+            backgroundColor: "#191919", // dark base background
+            justifyContent: "center",
+            color: "#FAF8F7",
+        }}
+        >
+        {/* Title */}
+        <Box
+            sx={{
+            backgroundColor: "#13625B", // teal-green accent
+            padding: "20px 50px",
+            marginBottom: "20px",
+            borderRadius: "40px",
+            boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)",
+            }}
+        >
+            <Typography
+            variant="h1"
+            sx={{
+                fontSize: "3rem",
+                fontWeight: 700,
+                letterSpacing: "2px",
+                color: "#FAF8F7",
+                textShadow: "0 2px 5px rgba(0,0,0,0.3)",
+            }}
             >
-                <Box sx={{display:"flex", flexDirection:"row", margin:"5px"}}>
-                    <Typography width="90px" sx={{marginRight:"10px"}}>Username:</Typography>
-                    <TextField
-                        label="Username"
-                        type="username"
-                        variant="outlined"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    ></TextField>
-                </Box>
-                <Box sx={{display:"flex", flexDirection:"row", paddingBottom:"10px"}}>
-                    <Typography width="90px" sx={{marginRight:"10px"}}>Password:</Typography>
-                    <TextField
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    ></TextField>
-                </Box>
-                <Button color="secondary" variant="contained" type="submit">Login</Button>
-            </Box>
+            Side Quest
+            </Typography>
         </Box>
+
+        {/* Subtitle */}
+        <Typography
+            width="550px"
+            variant="h5"
+            textAlign="center"
+            sx={{
+            color: "#8BC86F",
+            marginBottom: "40px",
+            fontWeight: 400,
+            }}
+        >
+            A volunteering opportunities dashboard
+        </Typography>
+
+        {/* Login Section */}
+        <Box
+            width="500px"
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            backgroundColor: "#123D33",
+            padding: "40px 30px",
+            borderRadius: "20px",
+            boxShadow: "0 4px 15px rgba(0,0,0,0.4)",
+            }}
+        >
+            {/* Username */}
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: "20px", width: "100%" }}>
+            <Typography
+                width="90px"
+                sx={{ marginRight: "10px", fontWeight: 500, color: "#FAF8F7" }}
+            >
+                Username:
+            </Typography>
+            <TextField
+                fullWidth
+                label="Username"
+                type="username"
+                variant="outlined"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                sx={{
+                "& .MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "#8BC86F" },
+                    "&:hover fieldset": { borderColor: "#13625B" },
+                    "&.Mui-focused fieldset": { borderColor: "#8BC86F" },
+                },
+                "& .MuiInputLabel-root": { color: "#FAF8F7" },
+                "& .MuiInputBase-input": { color: "#FAF8F7" },
+                }}
+            />
+            </Box>
+
+            {/* Password */}
+            <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", marginBottom: "30px", width: "100%" }}>
+            <Typography
+                width="90px"
+                sx={{ marginRight: "10px", fontWeight: 500, color: "#FAF8F7" }}
+            >
+                Password:
+            </Typography>
+            <TextField
+                fullWidth
+                label="Password"
+                type="password"
+                variant="outlined"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                error={inputError}
+                sx={{
+                "& .MuiOutlinedInput-root": {
+                    "& fieldset": { borderColor: "#8BC86F" },
+                    "&:hover fieldset": { borderColor: "#13625B" },
+                    "&.Mui-focused fieldset": { borderColor: "#8BC86F" },
+                },
+                "& .MuiInputLabel-root": { color: "#FAF8F7" },
+                "& .MuiInputBase-input": { color: "#FAF8F7" },
+                }}
+            />
+            </Box>
+
+            {/* Button */}
+            <Button
+            color="secondary"
+            variant="contained"
+            type="submit"
+            sx={{
+                backgroundColor: "#8BC86F",
+                color: "#191919",
+                fontWeight: 600,
+                width: "100%",
+                padding: "12px",
+                borderRadius: "10px",
+                "&:hover": {
+                backgroundColor: "#13625B",
+                color: "#FAF8F7",
+                },
+            }}
+            >
+            Login
+            </Button>
+        </Box>
+        </Box>
+
     )
 }
 
