@@ -29,9 +29,8 @@ const VolunteerBoard: React.FC = () => {
         <Box width="100%" height="100%" sx={{display:"flex", justifyContent:"center"}}>
           <Grid container rowSpacing={8} columnSpacing={12} justifyContent="center">
             {loadedEvents.length > 0 && loadedEvents.map((item, index) => (
-              <Grid>
+              <Grid key={index}>
                 <EventCard
-                  key={index}
                   event={item}
                 />
               </Grid>

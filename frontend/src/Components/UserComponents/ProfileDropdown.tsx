@@ -14,6 +14,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, poin
   const open = Boolean(anchorEl);
   const [cookies, setCookie, removeCookie] = useCookies(['USER_ID']);
   const navigate = useNavigate();
+  //TODO: We need to get user information here
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
