@@ -127,11 +127,7 @@ const Header: React.FC = () => {
           transition: "background-color 0.3s ease",
           "&:hover":{bgcolor:"primary.dark"}
         }}>
-          <ProfileDropdown
-            username="JohnDoe"
-            hours={42}
-            points={1200}
-          />
+          <ProfileDropdown/>
         </Box>
       </Toolbar>
     </AppBar>
