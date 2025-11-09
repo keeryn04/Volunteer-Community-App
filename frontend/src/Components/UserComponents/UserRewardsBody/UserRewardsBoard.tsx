@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import Header from "../../Components/GeneralComponents/Header";
 
-import {Box, Grid, Typography} from "@mui/material";
-import type Reward from "../../interfaces/Reward";
-import RewardsCard from "../../Components/UserComponents/RewardsCard";
+import {Box, Grid} from "@mui/material";
+import type Reward from "../../../interfaces/Reward";
+import UserRewardsRewardCard from "./UserRewardsRewardCard";
 
-const RewardsStore: React.FC = () => {
+const UserRewardsBoard: React.FC = () => {
 
   const [loadedRewards, setLoadedRewards] = useState<Reward[]>(
     [
@@ -91,38 +90,12 @@ const RewardsStore: React.FC = () => {
 
   return (
     <div>
-      <Header />
       <main style={{ paddingTop: "70px" }}>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "left",
-          mb: 4,
-        }}
-      >
-        <Box
-          sx={{
-            backgroundColor: "#FFD700", // gold
-            borderRadius: "16px",
-            padding: "8px 20px",
-            boxShadow: 2,
-          }}
-        >
-          <Typography
-            variant="h6"
-            component="div"
-            color="black"
-            sx={{ fontWeight: 600 }}
-          >
-            POINTS: {1200}
-          </Typography>
-        </Box>
-      </Box>
         <Box width="100%" height="100%" sx={{display:"flex", justifyContent:"center"}}>
           <Grid container rowSpacing={6} columnSpacing={7} justifyContent="center">
             {loadedRewards.map((item, index) => (
               <Grid>
-                <RewardsCard
+                <UserRewardsRewardCard
                   key={index}
                   reward={item}
                 />
@@ -135,4 +108,4 @@ const RewardsStore: React.FC = () => {
   );
 };
 
-export default RewardsStore;
+export default UserRewardsBoard;

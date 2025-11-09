@@ -1,15 +1,50 @@
 import React from "react";
+import { Tabs, Tab, Box} from "@mui/material";
+import UserQuests from "../../Components/UserComponents/UserQuests";
+import UserRewards from "../../Components/UserComponents/UserRewards";
 import Header from "../../Components/GeneralComponents/Header";
 
-const VolunteerBoard: React.FC = () => {
+const Profile: React.FC = () => {
+  const [selectedTab, setSelectedTab] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+  };
+
   return (
     <div>
       <Header />
-      <main className="p-6">
-        PROFILE
-      </main>
+        <Box sx={{ width: "100%", mt: 8 }}>
+        {/* tabs section */}
+        <Box>
+          <Tabs
+            value={selectedTab}
+            onChange={handleChange}
+            centered
+            textColor="primary"
+            indicatorColor="primary"
+          >
+            <Tab label="My Quests" />
+            <Tab label="My Rewards" />
+          </Tabs>
+        </Box>
+
+        {/* tab bodies */}
+        <Box sx={{ p: 3 }}>
+          {selectedTab === 0 && (
+            <Box>
+              <UserQuests />
+            </Box>
+          )}
+          {selectedTab === 1 && (
+            <Box>
+              <UserRewards />
+            </Box>
+          )}
+        </Box>
+      </Box>
     </div>
   );
 };
 
-export default VolunteerBoard;
+export default Profile;
