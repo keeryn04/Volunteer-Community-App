@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 import { Menu, MenuItem, Typography, Box, Button, IconButton, Avatar } from "@mui/material";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileDropdownProps {
   username: string;
   hours: number;
   points: number;
-  onSignOut: () => void;
 }
 
-const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, points, onSignOut }) => {
+const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, points}) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [cookies, setCookie, removeCookie] = useCookies(['USER_ID']);
+  const navigate = useNavigate();
+  //TODO: We need to get user information here
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,17 +23,16 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, poin
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleSignOut = () => {
+    removeCookie("USER_ID");
+    navigate("/");
+  }
 
   return (
     <Box>
-      <Button
-        onClick={handleClick}
-        sx={{ minWidth: 0, padding: 0 }}
-      >
-        <IconButton sx={{ ml: 1 }}>
-            <Avatar alt="Profile" src="/static/images/avatar/1.jpg" />
-        </IconButton>
-      </Button>
+      <IconButton sx={{ ml: 1, minWidth: 0, padding: 0 }} onClick={handleClick}>
+          <Avatar alt="Profile" src="/static/images/avatar/1.jpg" />
+      </IconButton>
 
       <Menu
         anchorEl={anchorEl}
@@ -49,7 +52,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, poin
         </MenuItem>
 
         <MenuItem
-            onClick={handleClose}
+            onClick={handleSignOut}
             sx={{
                 color: "black",
                 "&:hover": {

@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions} from "@mui/material";
 import type Reward from "../../interfaces/Reward";
+import { redeemReward } from "../../services/reward.service";
+import { Cookies, useCookies } from "react-cookie";
+import type { CookieValues } from "../../interfaces/Cookies";
 
 type RewardCardProps = {
-    reward: Reward
+    reward: Reward,
+    redeemed: boolean,
+    onRedeem: () => void,
 }
 
 const rewardModalStyle = {
@@ -18,9 +23,9 @@ const rewardModalStyle = {
         p: 4,
     };
 
-const RewardsCard: React.FC<RewardCardProps> = ({reward}) => {
+const RewardsCard: React.FC<RewardCardProps> = ({reward, redeemed, onRedeem}) => {
+    const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
     const [openConfirm, setOpenConfirm] = useState(false);
-    const [redeemed, setRedeemed] = useState(false);
 
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true);
@@ -29,9 +34,19 @@ const RewardsCard: React.FC<RewardCardProps> = ({reward}) => {
     const handleRedeemClick = () => setOpenConfirm(true);
     const handleCloseConfirm = () => setOpenConfirm(false);
     const handleConfirmRedeem = () => {
-        setRedeemed(true);
-        setOpenConfirm(false);
+        handleRedeem();
     };
+    const handleRedeem = async () => {
+        const userId = cookies.USER_ID;
+        const rewardId = reward.rewardId;
+        if(!userId || userId === "-1"){
+            console.log("Invalid userId");
+            return
+        }
+        const response = await redeemReward(userId, rewardId);
+        onRedeem();
+        handleCloseConfirm()
+    }
 
     return(
         <Box>
@@ -81,7 +96,7 @@ const RewardsCard: React.FC<RewardCardProps> = ({reward}) => {
                     component="div"
                     sx={{ fontWeight: 600, mb: 1 }}
                 >
-                    Points Needed: {reward.numPoints}
+                    Points Needed: {reward.numPoints.toString()}
                 </Typography>
 
                 {redeemed ? (
@@ -102,7 +117,7 @@ const RewardsCard: React.FC<RewardCardProps> = ({reward}) => {
                 <DialogContent>
                 <DialogContentText>
                     Are you sure you want to redeem <b>{reward.title}</b> for{" "}
-                    <b>{reward.numPoints}</b> points?
+                    <b>{reward.numPoints.toString()}</b> points?
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>

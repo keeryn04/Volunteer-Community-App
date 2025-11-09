@@ -18,7 +18,7 @@ export async function userLoginApi(username: String, password: String): Promise<
     }
 }
 
-export async function getPages(userId: String): Promise<PagesResponse|undefined>{
+export async function getPagesApi(userId: String): Promise<PagesResponse|undefined>{
     try{
         const response = await axios.get(`${API_BASE_URL}/${userId}/pages`);
         return response.data;

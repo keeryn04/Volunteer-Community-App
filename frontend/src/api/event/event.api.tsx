@@ -29,7 +29,7 @@ export async function applyToEventApi(userId: String, eventId: String){
         const requestBody: EventApplyRequest = {
             eventId: eventId,
         };
-        const response = await axios.post(`${API_BASE_URL}/${userId}/events/apply/`, requestBody);
+        const response = await axios.post(`${API_BASE_URL}/${userId}/events/apply`, requestBody);
         return response.status;
     }catch(error){
         console.error('Error', error);
