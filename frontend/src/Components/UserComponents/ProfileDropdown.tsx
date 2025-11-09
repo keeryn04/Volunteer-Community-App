@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, MenuItem, Typography, Box, Button, IconButton, Avatar } from "@mui/material";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import type GetUserResponse from "../../interfaces/api/response/GetUserResponse";
+import { getUserDetails } from "../../services/user.service";
 
-interface ProfileDropdownProps {
-  username: string;
-  hours: number;
-  points: number;
-  onSignOut: () => void;
-}
-
-const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, points, onSignOut }) => {
+const ProfileDropdown: React.FC<ProfileDropdownProps> = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [cookies, setCookie, removeCookie] = useCookies(['USER_ID']);
+  const [userData, setUserData] = useState<GetUserResponse>();
+  const navigate = useNavigate();
+  //TODO: We need to get user information here
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,17 +20,24 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, poin
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleSignOut = () => {
+    removeCookie("USER_ID");
+    navigate("/");
+  }
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = cookies.USER_ID;
+      const userDetails: GetUserResponse = await getUserDetails(userId);
+      setUserData(userDetails);
+    }
+    fetchUserData();
+  }, [])
 
   return (
     <Box>
-      <Button
-        onClick={handleClick}
-        sx={{ minWidth: 0, padding: 0 }}
-      >
-        <IconButton sx={{ ml: 1 }}>
-            <Avatar alt="Profile" src="/static/images/avatar/1.jpg" />
-        </IconButton>
-      </Button>
+      <IconButton sx={{ ml: 1, minWidth: 0, padding: 0 }} onClick={handleClick}>
+          <Avatar alt="Profile" src="/static/images/avatar/1.jpg" />
+      </IconButton>
 
       <Menu
         anchorEl={anchorEl}
@@ -39,17 +47,17 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ username, hours, poin
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <MenuItem disabled>
-          <Typography variant="subtitle1">{username}</Typography>
+          <Typography variant="subtitle1">{!!userData && userData.username}</Typography>
         </MenuItem>
         <MenuItem disabled>
-          <Typography variant="body2">Hours: {hours}</Typography>
+          <Typography variant="body2">Hours: {!!userData && userData.hours.toString()}</Typography>
         </MenuItem>
         <MenuItem disabled>
-          <Typography variant="body2">Points: {points}</Typography>
+          <Typography variant="body2">Points: {!!userData && userData.points.toString()}</Typography>
         </MenuItem>
 
         <MenuItem
-            onClick={handleClose}
+            onClick={handleSignOut}
             sx={{
                 color: "black",
                 "&:hover": {

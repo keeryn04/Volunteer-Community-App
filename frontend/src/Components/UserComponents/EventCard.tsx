@@ -1,9 +1,13 @@
 import React, { use, useState} from "react";
 import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button, Fade } from "@mui/material";
 import type Event from "../../interfaces/Event";
+import { useCookies } from "react-cookie";
+import type { CookieValues } from "../../interfaces/Cookies";
+import { applyToEvent } from "../../services/event.service";
 
 type EventCardProps = {
-    event: Event
+    event: Event,
+    onReloadEvents: () => void,
 }
 
 const eventModalStyle = {
@@ -18,13 +22,25 @@ const eventModalStyle = {
         p: 4,
     };
 
-const EventCard: React.FC<EventCardProps> = ({event}) => {
+const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
 
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
 
-    
+    const handleApply = async () => {
+        const userId: String = cookies.USER_ID;
+        if(!userId || userId === "-1"){
+            return;
+        }
+        const success = await applyToEvent(userId, event.eventId);
+        if(success){
+            onReloadEvents();
+            console.log("Succesfully Applied to Event");
+        }
+        handleClose();
+    }    
 
     return(
         <Box>

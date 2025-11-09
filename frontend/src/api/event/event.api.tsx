@@ -11,16 +11,20 @@ export async function getUserEventsApi(userId: String): Promise<GetUserEventsRes
         const response: AxiosResponse<GetUserEventsResponse> = await axios.get(`${API_BASE_URL}/${userId}/events`);
         return response.data;
     }catch(error){
-        console.error('Error', error);
+        console.log('Error', error);
     }
 }
 
-export async function getAllEventsApi() : Promise<GetAllEventsResponse | undefined> {
+export async function getAllEventsApi(userId: String) : Promise<GetAllEventsResponse | undefined> {
     try{
-        const response: AxiosResponse<GetAllEventsResponse> = await axios.get(`${API_BASE_URL}/events`);
+        const response: AxiosResponse<GetAllEventsResponse> = await axios.get(`${API_BASE_URL}/events`, {
+            params: {
+                user_id: userId
+            }
+        });
         return response.data;
     }catch(error){
-        console.error('Error', error);
+        console.log('Error', error);
     }
 }
 
@@ -29,9 +33,9 @@ export async function applyToEventApi(userId: String, eventId: String){
         const requestBody: EventApplyRequest = {
             eventId: eventId,
         };
-        const response = await axios.post(`${API_BASE_URL}/${userId}/events/apply/`, requestBody);
+        const response = await axios.post(`${API_BASE_URL}/${userId}/events/apply`, requestBody);
         return response.status;
     }catch(error){
-        console.error('Error', error);
+        console.log('Error', error);
     }
 }
