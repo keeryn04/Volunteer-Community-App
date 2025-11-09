@@ -13,6 +13,7 @@ import type { CookieValues } from "../../interfaces/Cookies";
 import axios from "axios";
 import { getUserDetails } from "../../services/user.service";
 import type GetUserResponse from "../../interfaces/api/response/GetUserResponse";
+import { useNavigate } from "react-router-dom";
 
 const textFieldStyle = {
     width:"350px",
@@ -35,6 +36,7 @@ const CreateEvent: React.FC = () => {
         time:""
     })
     const [cookies] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -54,11 +56,16 @@ const CreateEvent: React.FC = () => {
             return;
         }
         const userInfo: GetUserResponse = await getUserDetails(userId);
-        const response = axios.post(`/api/${userId}/events/create`, {
+        try{
+            const response = await axios.post(`/api/${userId}/events/create`, {
             ...formData,
             organizationLabel: userInfo.username,
         });
         console.log("Create event response: ", response);
+        }catch{
+            console.log('Error')
+        }
+        navigate('/myevents');
     }
 
     return (
