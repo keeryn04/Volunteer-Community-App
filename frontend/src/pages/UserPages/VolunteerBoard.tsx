@@ -6,7 +6,6 @@ import { getAllEvents } from "../../services/event.service";
 import { Grid, Box } from "@mui/material";
 
 import type Event from "../../interfaces/Event";
-import { EventState } from "../../enums/EventState.enum";
 
 //Components
 import EventCard from "../../Components/UserComponents/EventCard";
@@ -29,7 +28,7 @@ const VolunteerBoard: React.FC = () => {
       <main style={{ paddingTop: "70px" }}>
         <Box width="100%" height="100%" sx={{display:"flex", justifyContent:"center"}}>
           <Grid container rowSpacing={8} columnSpacing={12} justifyContent="center">
-            {loadedEvents.map((item, index) => (
+            {loadedEvents.length > 0 && loadedEvents.map((item, index) => (
               <Grid>
                 <EventCard
                   key={index}
