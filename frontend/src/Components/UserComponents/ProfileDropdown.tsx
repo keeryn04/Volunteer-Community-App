@@ -34,8 +34,8 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = () => {
   }, [])
 
   return (
-    <Box>
-      <IconButton sx={{ ml: 1, minWidth: 0, padding: 0 }} onClick={handleClick}>
+    <Box sx={{width:"100%", height:"100%"}}>
+      <IconButton sx={{ minWidth: 0, padding: 0 }} onClick={handleClick}>
           <Avatar alt="Profile" src="/static/images/avatar/1.jpg" />
       </IconButton>
 
