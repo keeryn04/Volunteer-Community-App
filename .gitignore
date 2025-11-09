@@ -1,1 +1,18 @@
+# Virtual environments
 .venv/
+venv/
+
+# Python cache
+__pycache__/
+backend/api/__pycache__/
+
+# Environment variables
+backend/.env
+.env
+
+# IDE settings
+.vscode/
+.idea/
+
+# Docker files or local logs
+*.log
