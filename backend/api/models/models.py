@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, HttpUrl
 from enum import Enum
 
@@ -33,13 +33,14 @@ class Event(BaseModel):
     organizationLabel: str
     volunteers: List[Volunteer]
     currentState: EventState
+    eventImg: Optional[str] = None
 
 class Reward(BaseModel):
     rewardId: str
     numPoints: int
     title: str
     description: str
-    imageURL: HttpUrl
+    rewardImg: Optional[str] = None
 
 class LoginRequest(BaseModel):
     username: str

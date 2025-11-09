@@ -10,10 +10,10 @@ def get_events():
     try:
         events = list(db.Events.find({}))
         for e in events:
-            e["_id"] = str(e.get("_id", ""))  # Convert ObjectId for JSON serialization
+            e["_id"] = str(e.get("_id", ""))  #Convert ObjectId for JSON serialization
         return events
     except Exception as e:
-        print("❌ Error fetching events:", e)
+        print("Error fetching events:", e)
         return []
 
 
@@ -32,7 +32,7 @@ def add_volunteer_to_event(user_id: str, event_id: str):
         )
         print(f"✅ Volunteer {user_id} added to event {event_id}!")
     except Exception as e:
-        print("❌ Error adding volunteer to event:", e)
+        print("Error adding volunteer to event:", e)
 
 
 # ------------------------------
@@ -47,7 +47,7 @@ def get_rewards():
             r["_id"] = str(r.get("_id", ""))
         return rewards
     except Exception as e:
-        print("❌ Error fetching rewards:", e)
+        print("Error fetching rewards:", e)
         return []
 
 
@@ -61,7 +61,7 @@ def add_reward_to_user(user_id: str, reward_id: str):
         )
         print(f"✅ Reward {reward_id} added to user {user_id}!")
     except Exception as e:
-        print("❌ Error adding reward to user:", e)
+        print("Error adding reward to user:", e)
 
 
 # ------------------------------
@@ -76,7 +76,7 @@ def get_users():
             u["_id"] = str(u.get("_id", ""))
         return users
     except Exception as e:
-        print("❌ Error fetching users:", e)
+        print("Error fetching users:", e)
         return []
 
 
@@ -89,7 +89,7 @@ def get_user_by_id(user_id: str):
             user["_id"] = str(user.get("_id", ""))
         return user
     except Exception as e:
-        print("❌ Error fetching user by ID:", e)
+        print("Error fetching user by ID:", e)
         return None
 
 
@@ -102,7 +102,7 @@ def get_user_password_from_username(username: str):
             return user.get("password"), user.get("userId")
         return None, None
     except Exception as e:
-        print("❌ Error fetching user password:", e)
+        print("Error fetching user password:", e)
         return None, None
 
 
@@ -113,7 +113,7 @@ def get_user_type(user_id: str):
         user = db.Users.find_one({"userId": user_id})
         return user.get("userType") if user else None
     except Exception as e:
-        print("❌ Error fetching user type:", e)
+        print("Error fetching user type:", e)
         return None
 
 
@@ -124,7 +124,7 @@ def get_user_event_ids(user_id: str):
         user = db.Users.find_one({"userId": user_id})
         return user.get("events", []) if user else []
     except Exception as e:
-        print("❌ Error fetching user event IDs:", e)
+        print("Error fetching user event IDs:", e)
         return []
 
 
@@ -135,7 +135,7 @@ def get_user_reward_ids(user_id: str):
         user = db.Users.find_one({"userId": user_id})
         return user.get("rewards", []) if user else []
     except Exception as e:
-        print("❌ Error fetching user reward IDs:", e)
+        print("Error fetching user reward IDs:", e)
         return []
 
 
@@ -146,5 +146,5 @@ def get_user_points(user_id: str):
         user = db.Users.find_one({"userId": user_id})
         return user.get("points", 0) if user else 0
     except Exception as e:
-        print("❌ Error fetching user points:", e)
+        print("Error fetching user points:", e)
         return 0
