@@ -19,6 +19,7 @@ import LoginPage from './pages/GeneralPages/Login.tsx'
 function App() {
   return (
     <ThemeProvider theme={theme}>
+      <CookiesProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
@@ -29,6 +30,7 @@ function App() {
           <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
+      </CookiesProvider>
     </ThemeProvider>
   )
 }
