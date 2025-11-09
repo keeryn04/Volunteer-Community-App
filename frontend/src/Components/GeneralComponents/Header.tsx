@@ -60,6 +60,7 @@ const Header: React.FC = () => {
   return (
     <AppBar
       position="static"
+      color="primary"
       elevation={2}
       sx={{
         position: "fixed",
@@ -83,10 +84,11 @@ const Header: React.FC = () => {
             return (
               <Button
                 key={page}
-                color={isActive ? "primary" : "inherit"}
-                variant={isActive ? "outlined" : "text"}
+                
+                variant={isActive ? "contained" : "contained"}
                 onClick={() => navigate(`/${routePath}`)}
                 sx={{
+                  bgcolor:isActive ? "primary.dark" : "primary.light",
                   textTransform: "none",
                   fontWeight: isActive ? 600 : 400,
                 }}
@@ -98,27 +100,36 @@ const Header: React.FC = () => {
         </Box>
 
         {/* Center: title */}
-        <Typography
-          variant="h6"
-          component="div"
+        <Box sx={{display:"flex", alignItems:"center", transform: "translateX(-65%)", }}>
+          <img  width="50px" height="auto" src="/SideQuest_Logo-Circle.png"/>
+          <Typography
+          variant="h5"
+          component="div" 
           sx={{
-            position: "absolute",
-            left: "50%",
-            transform: "translateX(-50%)",
+            paddingLeft:2,
             fontWeight: 600,
             color: "#FAF8F7"
           }}
-        >
-          SideQuest
-        </Typography>
+          >
+            SideQuest
+          </Typography>
+        </Box>
+        
 
         {/* Right: profile dropdownw */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <ProfileDropdown
-            username="JohnDoe"
-            hours={42}
-            points={1200}
-          />
+        <Box sx={{ 
+          display: "flex", 
+          justifyContent:"center", 
+          alignItems:"center", 
+          width:"40px", 
+          height:"40px", 
+          padding:"5px", 
+          bgcolor:"primary.light",
+          borderRadius:"1000px",
+          transition: "background-color 0.3s ease",
+          "&:hover":{bgcolor:"primary.dark"}
+        }}>
+          <ProfileDropdown/>
         </Box>
       </Toolbar>
     </AppBar>
