@@ -70,12 +70,12 @@ def get_all_events(user_id: str):
         user_event_ids = db.get_user_event_ids(user_id) #org sees only theirs
         filtered_events = [
             e for e in all_events
-            if e.get("eventId") in user_event_ids and e.get("currentState") in ["Approved", "Completed"]
+            if e.get("eventId") in user_event_ids and e.get("currentState") in ["Approved"]
         ]
     else:  #volunteer user
         filtered_events = [
             e for e in all_events
-            if e.get("currentState") in ["Approved", "Completed"]
+            if e.get("currentState") in ["Approved"]
         ]
     
     events_data = []
@@ -146,12 +146,12 @@ def create_event_route(event: EventCreateRequest, user_id: str):
     return created
 
 @router.post("/{event_id}/events/approve")
-def approve_event_route(event_id: str, points: int):
-    """Route to approve an event and assign points."""
-    success = db.approve_event(event_id, points)
+def approve_event_route(event_id: str):
+    """Route to approve an event."""
+    success = db.approve_event(event_id)
     if not success:
         raise HTTPException(status_code=500, detail="Failed to approve event")
-    return {"message": f"Event {event_id} approved with {points} points."}
+    return {"message": f"Event {event_id} approved and added points."}
 
 # ------------------------------
 # Reward Routes
