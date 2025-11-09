@@ -11,6 +11,7 @@ import theme from './Theme.tsx'
 
 //Pages
 import LoginPage from './pages/GeneralPages/Login.tsx'
+import CreateEvent from './pages/OrganizationPages/CreateEvent.tsx'
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/rewards" element={<Rewards />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/createEvent" element={<CreateEvent/>} />
           <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
