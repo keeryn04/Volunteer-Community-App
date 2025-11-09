@@ -30,6 +30,10 @@ def add_volunteer_to_event(user_id: str, event_id: str):
             {"eventId": event_id},
             {"$push": {"volunteers": {"userId": user_id, "username": username}}},
         )
+        db.Users.update_one(
+            {"userId": user_id},
+            {"$push": {"events": event_id}},
+        )
         print(f"Volunteer {user_id} added to event {event_id}!")
     except Exception as e:
         print("Error adding volunteer to event:", e)
@@ -50,7 +54,7 @@ def set_event_status(event_id: str, status: str):
         print("Error updating event status:", e)
         return False
     
-def create_event(event_data: dict):
+def create_event(event_data: dict, user_id: str):
     """
     Insert a new event into the database.
     """
@@ -59,6 +63,13 @@ def create_event(event_data: dict):
     try:
         db.Events.insert_one(event_data)
         print(f"Event {event_data['eventId']} created successfully!")
+
+        db.Users.update_one(
+            {"userId": user_id},
+            {"$push": {"createdEvents": event_data["eventId"]}}
+        )
+        print(f"Event {event_data['eventId']} associated with user {user_id}!")
+
         return event_data
     except Exception as e:
         print("Error creating event:", e)
