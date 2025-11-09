@@ -1,13 +1,26 @@
 import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
+import { useNavigate, useLocation } from "react-router-dom";
+import {AppBar, Toolbar, Typography, Button, Box} from "@mui/material";
 
-const Header: React.FC = () => {
+import ProfileDropdown from "../UserComponents/ProfileDropdown.tsx";
+interface HeaderProps {
+    availablePages?: string[]; 
+}
+  
+const defaultPages = ["volunteer", "rewards", "profile"];
+
+const Header: React.FC<HeaderProps> = ({ availablePages = defaultPages }) => {
+const navigate = useNavigate();
+const location = useLocation();
+
+const formatPageName = (page: string) =>
+    page.charAt(0).toUpperCase() + page.slice(1).toLowerCase();
+
+const handleSignOut = () => {
+    console.log("Sign out clicked!");
+    // sign in logic later
+    };
+
   return (
     <AppBar
       position="static"
@@ -25,9 +38,23 @@ const Header: React.FC = () => {
       <Toolbar sx={{ position: "relative", justifyContent: "space-between" }}>
         {/* Left: Nav*/}
         <Box sx={{ display: "flex", gap: 2 }}>
-          <Button color="inherit">Volunteer</Button>
-          <Button color="inherit">Rewards</Button>
-          <Button color="inherit">My Stuff</Button>
+            {availablePages.map((page) => {
+                const isActive = location.pathname === `/${page}`;
+                return (
+                <Button
+                    key={page}
+                    color={isActive ? "primary" : "inherit"}
+                    variant={isActive ? "outlined" : "text"}
+                    onClick={() => navigate(`/${page}`)}
+                    sx={{
+                    textTransform: "none",
+                    fontWeight: isActive ? 600 : 400,
+                    }}
+                >
+                    {formatPageName(page)}
+                </Button>
+                );
+            })}
         </Box>
 
         {/* Center: Title*/}
@@ -46,9 +73,12 @@ const Header: React.FC = () => {
 
         {/* Right: Profile*/}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <IconButton sx={{ ml: 1 }}>
-            <Avatar alt="Profile" src="/static/images/avatar/1.jpg" />
-          </IconButton>
+          <ProfileDropdown
+            username="JohnDoe"
+            hours={42}
+            points={1200}
+            onSignOut={handleSignOut}
+          />
         </Box>
       </Toolbar>
     </AppBar>
