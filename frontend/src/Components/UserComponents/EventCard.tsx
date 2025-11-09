@@ -1,5 +1,5 @@
-import React, { use, useState} from "react";
-import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button, Fade } from "@mui/material";
+import React, { use, useState } from "react";
+import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button } from "@mui/material";
 import type Event from "../../interfaces/Event";
 import { useCookies } from "react-cookie";
 import type { CookieValues } from "../../interfaces/Cookies";
@@ -49,42 +49,41 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                 open={open}
                 onClose={handleClose}
             >
-                <Fade in={open}>
-                    <Card
-                
-                    sx={{
-                        width: 600,
-                        borderRadius: 3,
-                        boxShadow: 3,
-                        position: "absolute" as "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)"
-                    }}
-                    >
-                        {/* Top Image */}
-                        <CardMedia
-                            component="img"
-                            image={"/EventImgPlaceholder.jpg"}
-                            alt={"Img not found"}
-                            sx={{ objectFit: "cover", width:"100%", height:"auto" }}
-                        />
+                <Card
+            
+                sx={{
+                    width: 600,
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    position: "absolute" as "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)"
+                }}
+                >
+                    {/* Top Image */}
+                    <CardMedia
+                        component="img"
+                        image={"/EventImgPlaceholder.jpg"}
+                        alt={"Img not found"}
+                        sx={{ objectFit: "cover", width:"100%", height:"auto" }}
+                    />
 
-                        {/* Text Content */}
-                        <CardContent>
-                            {/* Title + Organization */}
-                            <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
-                                <Typography
-                                    variant="h6"
-                                    component="div"
-                                    sx={{ fontWeight: 600, mr: 1 }}
-                                >
-                                    {event.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {event.organizationLabel}
-                                </Typography>
-                            </Box>
+                    {/* Text Content */}
+                    <CardContent>
+                        {/* Title + Organization */}
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
+                            <Typography
+                                variant="h6"
+                                component="div"
+                                sx={{ fontWeight: 600, mr: 1 }}
+                            >
+                                {event.title}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {event.organizationLabel}
+                            </Typography>
+                        </Box>
 
                         {/* Location + Time */}
                         <Typography
@@ -96,13 +95,15 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                         </Typography>
 
                         {/* Description */}
-                            <Box sx={{display:"flex", justifyContent:"right"}}>
-                                <Button variant="contained" color="secondary" onClick={handleApply}>Apply</Button>
-                            </Box>
-                            
-                        </CardContent>
-                    </Card>
-                </Fade>
+                        <Typography variant="body2" color="text.primary">
+                        {event.description}
+                        </Typography>
+                        <Box sx={{display:"flex", justifyContent:"right"}}>
+                            <Button variant="contained" color="secondary" onClick={handleApply}>Apply</Button>
+                        </Box>
+                        
+                    </CardContent>
+                </Card>
             </Modal>
 
             {/* Main Card */}
@@ -149,10 +150,7 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                     color="text.secondary"
                     sx={{ mb: 1 }}
                     >
-                        {event.location} • {new Date(String(event.time)).toLocaleString("en-US", {
-                        dateStyle: "medium",
-                        timeStyle: "short"
-                        })}
+                    {event.location} • {event.time}
                     </Typography>
                 </CardContent>
                 </CardActionArea>

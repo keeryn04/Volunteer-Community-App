@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, List, ListItem, ListItemText, Divider, Fade} from "@mui/material";
+import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, List, ListItem, ListItemText, Divider} from "@mui/material";
 import type Event from "../../interfaces/Event";
 
 type EventCardProps = {
@@ -43,112 +43,107 @@ const OrgEventCard: React.FC<EventCardProps> = ({event}) => {
                 open={open}
                 onClose={handleClose}
             >
-                <Fade in={open}>
-                    <Card
-                
-                    sx={{
-                        width: 600,
-                        borderRadius: 3,
-                        boxShadow: 3,
-                        position: "absolute" as "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)"
-                    }}
-                    >
-                        {/* Top Image */}
-                        <CardMedia
-                            component="img"
-                            image={"/EventImgPlaceholder.jpg"}
-                            alt={"Img not found"}
-                            sx={{ objectFit: "cover", width:"100%", height:"auto" }}
-                        />
+                <Card
+            
+                sx={{
+                    width: 600,
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    position: "absolute" as "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)"
+                }}
+                >
+                    {/* Top Image */}
+                    <CardMedia
+                        component="img"
+                        image={"/EventImgPlaceholder.jpg"}
+                        alt={"Img not found"}
+                        sx={{ objectFit: "cover", width:"100%", height:"auto" }}
+                    />
 
-                        {/* Text Content */}
-                        <CardContent>
-                            {/* Title + Organization */}
-                            <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
-                                <Typography
-                                    variant="h6"
-                                    component="div"
-                                    sx={{ fontWeight: 600, mr: 1 }}
-                                >
-                                    {event.title}
-                                </Typography>
-                                <Typography variant="body2" color="text.secondary">
-                                    {event.organizationLabel}
-                                </Typography>
-                            </Box>
-
-                            {/* Location + Time */}
+                    {/* Text Content */}
+                    <CardContent>
+                        {/* Title + Organization */}
+                        <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
                             <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            sx={{ mb: 1 }}
+                                variant="h6"
+                                component="div"
+                                sx={{ fontWeight: 600, mr: 1 }}
                             >
-                                {event.location} • {new Date(String(event.time)).toLocaleString("en-US", {
-                                dateStyle: "medium",
-                                timeStyle: "short"
-                                })}
+                                {event.title}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                                {event.organizationLabel}
+                            </Typography>
+                        </Box>
+
+                        {/* Location + Time */}
+                        <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ mb: 1 }}
+                        >
+                        {event.location} • {event.time}
+                        </Typography>
+
+                        {/*volunteer list*/}
+                        {event.volunteers && event.volunteers.length > 0 ? (
+                        <Box sx={{ mt: 2, mb: 2 }}>
+                            <Typography
+                            variant="subtitle1"
+                            sx={{
+                                mb: 0.5,
+                                fontWeight: 600,
+                                color: "primary.main",
+                                display: "inline-block",
+                            }}
+                            >
+                            Volunteers
                             </Typography>
 
-                            {/*volunteer list*/}
-                            {event.volunteers && event.volunteers.length > 0 ? (
-                            <Box sx={{ mt: 2, mb: 2 }}>
-                                <Typography
-                                variant="subtitle1"
+                            <List 
+                                dense
                                 sx={{
-                                    mb: 0.5,
-                                    fontWeight: 600,
-                                    color: "primary.main",
-                                    display: "inline-block",
+                                    mt: 0.1, 
+                                    p: 0,  
                                 }}
-                                >
-                                Volunteers
-                                </Typography>
-
-                                <List 
-                                    dense
-                                    sx={{
-                                        mt: 0.1, 
-                                        p: 0,  
-                                    }}
-                                >
-                                {event.volunteers.map((volunteer) => (
-                                    <React.Fragment key={volunteer.userId}>
-                                    <ListItem>
-                                        <ListItemText primary={`• ${volunteer.username}`}/>
-                                    </ListItem>
-                                    <Divider />
-                                    </React.Fragment>
-                                ))}
-                                </List>
-                            </Box>
-                            ) : (
-                            <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
-                                No volunteers have signed up yet.
-                            </Typography>
-                            )}
-
-                            {/* Description */}
-                            <Typography variant="body2" color="text.primary">
-                            {event.description}
-                            </Typography>
-                            <Box sx={{ display: "flex", justifyContent: "right" }}>
-                            <Button
-                                variant="contained"
-                                color={completed ? "inherit" : "secondary"}
-                                disabled={completed}
-                                onClick={handleCompleteClick}
                             >
-                                {completed ? "COMPLETED" : "COMPLETE EVENT"}
-                            </Button>
-                            </Box>
-                            
-                            
-                        </CardContent>
-                    </Card>
-                </Fade>
+                            {event.volunteers.map((volunteer) => (
+                                <React.Fragment key={volunteer.userId}>
+                                <ListItem>
+                                    <ListItemText primary={`• ${volunteer.username}`}/>
+                                </ListItem>
+                                <Divider />
+                                </React.Fragment>
+                            ))}
+                            </List>
+                        </Box>
+                        ) : (
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+                            No volunteers have signed up yet.
+                        </Typography>
+                        )}
+
+                        {/* Description */}
+                        <Typography variant="body2" color="text.primary">
+                        {event.description}
+                        </Typography>
+                        <Box sx={{ display: "flex", justifyContent: "right" }}>
+                        <Button
+                            variant="contained"
+                            color={completed ? "inherit" : "secondary"}
+                            disabled={completed}
+                            onClick={handleCompleteClick}
+                        >
+                            {completed ? "COMPLETED" : "COMPLETE EVENT"}
+                        </Button>
+                        </Box>
+                        
+                        
+                    </CardContent>
+                </Card>
             </Modal>
 
             {/* Main Card */}
@@ -198,10 +193,7 @@ const OrgEventCard: React.FC<EventCardProps> = ({event}) => {
                     color="text.secondary"
                     sx={{ mb: 1 }}
                     >
-                        {event.location} • {new Date(String(event.time)).toLocaleString("en-US", {
-                        dateStyle: "medium",
-                        timeStyle: "short"
-                        })}
+                    {event.location} • {event.time}
                     </Typography>
                 </CardContent>
                 </CardActionArea>
