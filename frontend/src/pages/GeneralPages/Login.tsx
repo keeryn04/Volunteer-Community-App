@@ -3,8 +3,9 @@ import { useState } from "react";
 import { userLogin } from "../../services/user.service";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import type { CookieValues } from "../../interfaces/Cookies";
 const LoginPage = () => {
-    const [cookies, setCookie, removeCookie] = useCookies(['USER_ID']);
+    const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
     
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -16,8 +17,12 @@ const LoginPage = () => {
         const userId: String = (await userLogin(username, password)).userId
         if(userId === "-1")
             return null;
-        //new Date(new Date) resolves to new Date(today) which resolves to tomorrow
-        setCookie('USER_ID', userId, {expires: new Date(new Date)});
+        //Setting expiry date for tomorrow (24hrs from now)
+        const today: Date = new Date();
+        const tomorrow: Date = new Date(today);
+        tomorrow.setDate(today.getDate() + 1);
+        
+        setCookie('USER_ID', userId, {expires: tomorrow});
         navigate('/volunteer');
     }
     

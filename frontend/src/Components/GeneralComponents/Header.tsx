@@ -1,25 +1,38 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {AppBar, Toolbar, Typography, Button, Box} from "@mui/material";
+import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 
 import ProfileDropdown from "../UserComponents/ProfileDropdown.tsx";
-interface HeaderProps {
-    availablePages?: string[]; 
-}
-  
-const defaultPages = ["volunteer", "rewards", "profile"];
+import { getPages } from "../../services/user.service.tsx";
+import type { Pages } from "../../enums/Pages.enum.tsx";
+import type { CookieValues } from "../../interfaces/Cookies.tsx";
 
-const Header: React.FC<HeaderProps> = ({ availablePages = defaultPages }) => {
-const navigate = useNavigate();
-const location = useLocation();
+const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-const formatPageName = (page: string) =>
+  const formatPageName = (page: string) =>
     page.charAt(0).toUpperCase() + page.slice(1).toLowerCase();
 
-const handleSignOut = () => {
-    console.log("Sign out clicked!");
-    // sign in logic later
-    };
+  const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
+
+  const [availablePages, setAvailablePages] = useState([""])
+  useEffect(() => {
+    const getAvailablePages = async (): Promise<void> => {
+      const userId = cookies.USER_ID;
+      if (!userId || userId === "-1"){
+        console.log("Bad userId, redirecting to Login Page", userId);
+        navigate("/");
+        return;
+      }
+
+      const availablePages: Pages[] = (await getPages(userId)).availablePages;
+      setAvailablePages(availablePages);
+    }
+    getAvailablePages();
+  }, []);
 
   return (
     <AppBar
@@ -78,7 +91,6 @@ const handleSignOut = () => {
             username="JohnDoe"
             hours={42}
             points={1200}
-            onSignOut={handleSignOut}
           />
         </Box>
       </Toolbar>
