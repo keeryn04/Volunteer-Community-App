@@ -27,3 +27,8 @@ def close_mongo_connection():
     if client:
         client.close()
         print("🛑 MongoDB connection closed.")
+
+def get_db():
+    """Get the MongoDB database instance."""
+    global db
+    return db

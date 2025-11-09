@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const Test: React.FC = () => {
     const [output_test_1, setOutput1] = useState<string>('');
     const [output_test_2, setOutput2] = useState<string>('');
+    const [output_test_3, setOutput3] = useState<string>('');
     const [input, setInput] = useState<string>('');
 
     const handleSimpleTest = async () => {
@@ -20,6 +21,14 @@ const Test: React.FC = () => {
             .then(res => res.text())
             .then(data => {
                 setOutput2(data);
+            });
+    };
+
+    const databaseTest = async () => {
+        const res = await fetch('/api/test_db')
+            .then(res => res.text())
+            .then(data => {
+                setOutput3(data);
             });
     };
 
@@ -55,6 +64,23 @@ const Test: React.FC = () => {
                 </button>
                 <textarea 
                     value={output_test_2}
+                    readOnly
+                    style={{ 
+                        display: 'block', 
+                        marginTop: '10px',
+                        width: '300px',
+                        height: '100px'
+                    }}
+                />
+            </div>
+
+            <div>
+                <h2>Database Fetch Test</h2>
+                <button onClick={databaseTest}>
+                    Test Database Connection
+                </button>
+                <textarea 
+                    value={output_test_3}
                     readOnly
                     style={{ 
                         display: 'block', 
