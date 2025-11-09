@@ -19,7 +19,7 @@ export interface Organization extends User{
     organizationEvents: Event[],
 }
 export enum UserType{
-    Volunteer = "Volunteer",
-    Moderator = "Moderator",
-    Organization = "Organization"
+    Volunteer = "volunteer",
+    Moderator = "moderator",
+    Organization = "organization"
 }

@@ -198,7 +198,7 @@ def get_user(user_id: str):
         username=user.get("username", ""),
         hours=user.get("hours", 0),
         points=user.get("points", 0),
-        userType=user.get("userType", 0)
+        userType=user.get("userType", "")
     )
 
 @router.get("/{user_id}/points")
