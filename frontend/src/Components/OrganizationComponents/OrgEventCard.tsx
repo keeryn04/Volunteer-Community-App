@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, List, ListItem, ListItemText, Divider} from "@mui/material";
 import type Event from "../../interfaces/Event";
+import { useCookies } from "react-cookie";
+import type { CookieValues } from "../../interfaces/Cookies";
 
 type EventCardProps = {
     event: Event
@@ -23,6 +25,7 @@ const OrgEventCard: React.FC<EventCardProps> = ({event}) => {
     const [open, setOpen] = useState(false)
     const [openConfirm, setOpenConfirm] = useState(false);
     const [completed, setCompleted] = useState(false);
+    const [cookies] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -30,6 +33,8 @@ const OrgEventCard: React.FC<EventCardProps> = ({event}) => {
     const handleCompleteClick = () => setOpenConfirm(true);
     const handleCloseConfirm = () => setOpenConfirm(false);
     const handleConfirmComplete = () => {
+        const userId: String = cookies.USER_ID;
+        
         setCompleted(true);
         setOpenConfirm(false);
         setOpen(false); 
