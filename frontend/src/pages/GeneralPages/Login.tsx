@@ -34,7 +34,7 @@ const LoginPage = () => {
 
         console.log(user)
 
-        if (user.userType.toString() == "Organization")
+        if (user.userType == UserType.Volunteer)
             navigate('/volunteer');
         else
             navigate('/myEvents');
