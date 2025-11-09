@@ -3,6 +3,7 @@ import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, B
 import type Event from "../../interfaces/Event";
 import { useCookies } from "react-cookie";
 import type { CookieValues } from "../../interfaces/Cookies";
+import axios from "axios";
 
 type EventCardProps = {
     event: Event
@@ -34,11 +35,20 @@ const OrgEventCard: React.FC<EventCardProps> = ({event}) => {
     const handleCloseConfirm = () => setOpenConfirm(false);
     const handleConfirmComplete = () => {
         const userId: String = cookies.USER_ID;
-        
+        approveEvent(event.eventId);
         setCompleted(true);
         setOpenConfirm(false);
         setOpen(false); 
     };
+    const approveEvent = async (eventId: String) => {
+        try{
+            const response = await axios.post(`/api/${eventId}/events/approve`);
+            console.log("Response: ",response.data)
+        }catch (error){
+            console.log("Error", error);
+        }
+        
+    }
     
 
     return(

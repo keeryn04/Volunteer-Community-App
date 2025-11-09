@@ -64,18 +64,46 @@ def create_event(event_data: dict):
         print("Error creating event:", e)
         return None
     
-def approve_event(event_id: str, points: int) -> bool:
+def approve_event(event_id: str) -> bool:
     """
-    Approve an event and set its point value.
-    Returns True if the update succeeded, False otherwise.
+    Approve an event, assign points to it, and reward all volunteers.
+    Returns True if successful, False otherwise.
     """
     db = get_db()
     try:
+        #update the event status and assign points
         result = db.Events.update_one(
             {"eventId": event_id},
-            {"$set": {"currentState": "Approved", "points": points}}
+            {"$set": {"currentState": "Completed"}}
         )
-        return result.modified_count > 0
+
+        if result.modified_count == 0:
+            print(f"No event found with ID {event_id}")
+            return False
+
+        #fetch the event to get its volunteer list
+        event = db.Events.find_one({"eventId": event_id})
+        if not event:
+            print(f"Event {event_id} not found after update.")
+            return False
+
+        points = event.get("points", 0)
+        volunteers = event.get("volunteers", [])
+        if not volunteers:
+            print(f"No volunteers found for event {event_id}")
+            return True  #Still successful
+
+        #reward each volunteer
+        for user_id in volunteers:
+            db.Users.update_one(
+                {"userId": user_id},
+                {"$inc": {"points": points}}
+            )
+            print(f"Added {points} points to user {user_id} for event {event_id}")
+
+        print(f"Event {event_id} approved and volunteers rewarded.")
+        return True
+
     except Exception as e:
         print(f"Error approving event {event_id}: {e}")
         return False
