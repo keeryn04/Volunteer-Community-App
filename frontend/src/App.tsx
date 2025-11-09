@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Test from './pages/Test.tsx'
-import Volunteer from './pages/UserPages/VolunteerBoard.tsx'
+import VolunteerBoardPage from './pages/UserPages/VolunteerBoard.tsx'
 
 //Themeing
 import { ThemeProvider } from '@emotion/react'
@@ -57,7 +57,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LoginPage />} />
-          <Route path="/volunteerBoard" element={<Volunteer />} />
+          <Route path="/volunteerBoard" element={<VolunteerBoardPage />} />
           <Route path="/test" element={<Test />} />
         </Routes>
       </BrowserRouter>
