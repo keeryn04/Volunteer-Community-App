@@ -58,7 +58,8 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                     position: "absolute",
                     top: "50%",
                     left: "50%",
-                    transform: "translate(-50%, -50%)"
+                    transform: "translate(-50%, -50%)",
+                    bgcolor: "#13625B"
                 }}
                 >
                     {/* Top Image */}
@@ -76,11 +77,12 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                             <Typography
                                 variant="h6"
                                 component="div"
+                                color="#FAF8F7"
                                 sx={{ fontWeight: 600, mr: 1 }}
                             >
                                 {event.title}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography variant="body2" color="#8BC86F">
                                 {event.organizationLabel}
                             </Typography>
                         </Box>
@@ -88,14 +90,14 @@ const EventCard: React.FC<EventCardProps> = ({event, onReloadEvents}) => {
                         {/* Location + Time */}
                         <Typography
                         variant="body2"
-                        color="text.secondary"
+                        color="#8BC86F"
                         sx={{ mb: 1 }}
                         >
                         {event.location} • {event.time}
                         </Typography>
 
                         {/* Description */}
-                        <Typography variant="body2" color="text.primary">
+                        <Typography variant="body2" color="#FAF8F7">
                         {event.description}
                         </Typography>
                         <Box sx={{display:"flex", justifyContent:"right"}}>
