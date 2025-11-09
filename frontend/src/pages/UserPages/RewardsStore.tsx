@@ -34,9 +34,8 @@ const RewardsStore: React.FC = () => {
     const getClaimedRewards = async() => {
       const userRewardsReponse: GetUserRewardsResponse = (await getUserRewards(userId));
       setClaimedRewardIds(userRewardsReponse.claimedRewardIds);
-      setUserPoints(userPoints);
+      setUserPoints(userRewardsReponse.userPoints);
     }
-
     getReward();
     getClaimedRewards();
   }, []);
@@ -47,7 +46,7 @@ const RewardsStore: React.FC = () => {
       const userRewardsReponse: GetUserRewardsResponse = (await getUserRewards(userId));
       if(reloadClaimedRewards){
         setClaimedRewardIds(userRewardsReponse.claimedRewardIds);
-        setUserPoints(userPoints);
+        setUserPoints(userRewardsReponse.userPoints);
       }
     }
     fetchClaimedRewards();

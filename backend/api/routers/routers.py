@@ -177,12 +177,12 @@ def get_all_rewards():
     return RewardsResponse(rewards=rewards_data)
 
 @router.get("/{user_id}/rewards/claim")
-def claim_reward(data: RewardClaimRequest, user_id: str):
+def claim_reward(rewardId: str, user_id: str):
     """Add a claimed reward to a user."""
-    reward_id = data.rewardId
+    reward_id = rewardId
     try:
-        db.add_reward_to_user(user_id, reward_id)
-        return {"message": "Reward successfully claimed."}
+        response = db.add_reward_to_user(user_id, reward_id)
+        return response
     except Exception:
         raise HTTPException(status_code=400, detail="Reward Claim Error")
 
