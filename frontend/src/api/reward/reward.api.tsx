@@ -26,7 +26,7 @@ export async function redeemRewardApi(userId: String, rewardId: String){
         const requestBody: ClaimRewardRequest = {
             rewardId: rewardId,
         };
-        const response = await axios.post(`${API_BASE_URL}/${userId}/rewards/claim`, requestBody);
+        const response = await axios.get(`${API_BASE_URL}/${userId}/rewards/claim`, {params: requestBody});
         return response.data;
     }catch(error){
         console.log('Error', error);
