@@ -10,7 +10,7 @@ const theme = createTheme({
     secondary: {
       main: "#59df89",        // main secondary
       dark: "#41b66c",        // slightly darker variant
-      light: "#74e8a1"        // optional lighter shade
+      light: "#ccf6cfff"        // optional lighter shade
     },
     error: {
       main: "#ff0000",        // pure red
