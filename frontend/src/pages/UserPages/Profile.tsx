@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, Tab, Box, Typography } from "@mui/material";
+import { Tabs, Tab, Box} from "@mui/material";
 import UserQuests from "../../Components/UserComponents/UserQuests";
 import UserRewards from "../../Components/UserComponents/UserRewards";
 import Header from "../../Components/GeneralComponents/Header";
@@ -15,8 +15,8 @@ const Profile: React.FC = () => {
     <div>
       <Header />
         <Box sx={{ width: "100%", mt: 8 }}>
-        {/* Tabs Section */}
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        {/* tabs section */}
+        <Box>
           <Tabs
             value={selectedTab}
             onChange={handleChange}
@@ -29,7 +29,7 @@ const Profile: React.FC = () => {
           </Tabs>
         </Box>
 
-        {/* Tab Content */}
+        {/* tab bodies */}
         <Box sx={{ p: 3 }}>
           {selectedTab === 0 && (
             <Box>
@@ -38,7 +38,6 @@ const Profile: React.FC = () => {
           )}
           {selectedTab === 1 && (
             <Box>
-              
               <UserRewards />
             </Box>
           )}
