@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from api.routers.routers import router
 from api.utils.database_client import connect_to_mongo, close_mongo_connection
-from api.utils.database_access_layer import test_fetch_events
+from api.utils.database_access_layer import get_rewards
 
 # Establish DB connection with lifespan
 @asynccontextmanager
@@ -32,5 +32,5 @@ def get_test_param(param: str):
 
 @app.get("/api/test_db")
 def test_db_connection():
-    events = test_fetch_events()
+    events = get_rewards()
     return {"message": "test successful", "events": events}
