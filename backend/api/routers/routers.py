@@ -1,4 +1,7 @@
 import base64
+import os
+import requests
+import google.generativeai as genai
 from typing import Optional
 from fastapi import APIRouter, HTTPException
 from api.models.models import (

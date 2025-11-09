@@ -70,3 +70,15 @@ class RewardsResponse(BaseModel):
 
 class RewardClaimRequest(BaseModel):
     rewardId: str
+
+class RecommendRequest(BaseModel):
+    userId: str
+    appliedEventIds: List[str]
+
+class RecommendedEvent(BaseModel):
+    eventId: str
+    title: str
+    explanation: str
+
+class RecommendResponse(BaseModel):
+    recommendations: List[RecommendedEvent]
