@@ -9,14 +9,18 @@ import type Event from "../../interfaces/Event";
 
 //Components
 import EventCard from "../../Components/UserComponents/EventCard";
+import { useCookies } from "react-cookie";
+import type { CookieValues } from "../../interfaces/Cookies";
 
 const VolunteerBoard: React.FC = () => {
 
   const [loadedEvents, setLoadedEvents] = useState<Event[]>([]);
+  const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const events: Event[] = (await getAllEvents()).events
+      const userId = cookies.USER_ID;
+      const events: Event[] = (await getAllEvents(userId)).events
       setLoadedEvents(events);
     }
     fetchEvents();
