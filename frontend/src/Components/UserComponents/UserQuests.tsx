@@ -5,7 +5,7 @@ import UserQuestsBoard from "./UserQuestsBody/UserQuestsBoard"
 const UserQuest: React.FC = () => {
   return (
     <div>
-        <Typography variant="h5" sx={{ mb: 2 }}>
+        <Typography variant="h5" sx={{ mb: 2, color:"white" }}>
             My Quests
         </Typography>
         <UserQuestsBoard />
