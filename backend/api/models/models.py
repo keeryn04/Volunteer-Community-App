@@ -7,11 +7,13 @@ class Pages(str, Enum):
     VOLUNTEER = "volunteer"
     REWARDS = "rewards"
     PROFILE = "profile"
+    MY_EVENTS = "myEvents"
+    CREATE_EVENTS = "createEvents"
 
 USER_TYPE_PAGES = {
     "volunteer": [Pages.VOLUNTEER, Pages.REWARDS, Pages.PROFILE],
-    "admin": [Pages.VOLUNTEER, Pages.REWARDS],
-    "organization": [Pages.PROFILE]
+    "admin": [Pages.VOLUNTEER],
+    "organization": [Pages.MY_EVENTS, Pages.CREATE_EVENTS]
 }
 
 class EventState(str, Enum):
@@ -34,14 +36,14 @@ class Event(BaseModel):
     organizationLabel: str
     volunteers: List[Volunteer]
     currentState: EventState
-    eventImg: Optional[str] = None
+    eventImg: str
 
 class Reward(BaseModel):
     rewardId: str
     numPoints: int
     title: str
     description: str
-    rewardImg: Optional[str] = None
+    imageURL: str
 
 class LoginRequest(BaseModel):
     username: str

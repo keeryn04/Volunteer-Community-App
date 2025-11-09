@@ -39,7 +39,7 @@ const RewardsCard: React.FC<RewardCardProps> = ({ reward }) => {
           {/* Reward Image */}
         <CardMedia
             component="img"
-            image="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+            src={reward.imageURL?.toString() || "/RewardImgPlaceholder.jpg"}
             alt="Reward image"
             sx={{ objectFit: "cover", width: "100%", height: "auto" }}
         />

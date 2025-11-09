@@ -9,6 +9,7 @@ export default interface Event{
     organizationLabel: String,
     volunteers: VolunteerDto[],
     currentState: EventState,
+    eventImg: String
 }
 
 export interface VolunteerDto{

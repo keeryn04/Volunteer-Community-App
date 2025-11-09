@@ -70,6 +70,7 @@ const Header: React.FC = () => {
         left: 0,
         overflowX: "hidden",
         margin: 0,
+        bgcolor: "#123D33",
       }}
     >
       <Toolbar sx={{ position: "relative", justifyContent: "space-between" }}>
@@ -107,6 +108,7 @@ const Header: React.FC = () => {
           sx={{
             paddingLeft:2,
             fontWeight: 600,
+            color: "#FAF8F7"
           }}
           >
             SideQuest

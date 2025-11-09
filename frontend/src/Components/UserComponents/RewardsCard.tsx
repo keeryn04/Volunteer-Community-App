@@ -17,7 +17,7 @@ const rewardModalStyle = {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 400,
-        bgcolor: 'background.paper',
+        bgcolor: '#13625B',
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
@@ -56,6 +56,7 @@ const RewardsCard: React.FC<RewardCardProps> = ({reward, redeemed, onRedeem}) =>
                 position: "relative",
                 zIndex: 1,
                 maxWidth: 250,
+                height: 450,
                 borderRadius: 3,
                 boxShadow: 3,
                 overflow: "hidden",
@@ -82,11 +83,11 @@ const RewardsCard: React.FC<RewardCardProps> = ({reward, redeemed, onRedeem}) =>
 
                 {/* Reward Image */}
                 <CardMedia
-                component="img"
-                height="200"
-                image={"/EventImgPlaceholder.jpg"}
-                alt={reward.title}
-                sx={{ objectFit: "cover" }}
+                    component="img"
+                    height="200"
+                    src={reward.imageURL?.toString() || "/RewardImgPlaceholder.jpg"}
+                    alt={reward.title}
+                    sx={{ objectFit: "cover" }}
                 />
 
                 {/* Points and Redeem Button */}
