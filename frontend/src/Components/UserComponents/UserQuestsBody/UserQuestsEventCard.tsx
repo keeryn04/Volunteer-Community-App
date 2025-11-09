@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button } from "@mui/material";
+import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button, Fade} from "@mui/material";
 import type Event from "../../../interfaces/Event";
 
 type EventCardProps = {
@@ -33,109 +33,117 @@ const EventCard: React.FC<EventCardProps> = ({event}) => {
                 open={open}
                 onClose={handleClose}
             >
-                <Card
-            
-                sx={{
-                    width: 600,
-                    borderRadius: 3,
-                    boxShadow: 3,
-                    position: "absolute" as "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)"
-                }}
-                >
-                    {/* Top Image */}
-                    <CardMedia
-                        component="img"
-                        image={"/EventImgPlaceholder.jpg"}
-                        alt={"Img not found"}
-                        sx={{ objectFit: "cover", width:"100%", height:"auto" }}
-                    />
-
-                    {/* Text Content */}
-                    <CardContent>
-                        {/* Title + Organization */}
-                        <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
-                            <Typography
-                                variant="h6"
-                                component="div"
-                                sx={{ fontWeight: 600, mr: 1 }}
-                            >
-                                {event.title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {event.organizationLabel}
-                            </Typography>
-                        </Box>
-
-                        {/* Location + Time */}
-                        <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ mb: 1 }}
-                        >
-                        {event.location} • {event.time}
-                        </Typography>
-
-                        {/* Description */}
-                        <Typography variant="body2" color="text.primary">
-                        {event.description}
-                        </Typography>
-                        
-                    </CardContent>
-                </Card>
-            </Modal>
-
-            {/* Main Card */}
-            <Card
-            
-            sx={{
-                position: "relative",
-                zIndex:1,
-                maxWidth: 400,
-                borderRadius: 3,
-                boxShadow: 3,
-                overflow: "hidden",
-            }}
-            >
-                <CardActionArea onClick={handleOpen}>
-                {/* Top Image */}
-                <CardMedia
-                    component="img"
-                    height="200"
-                    image={"/EventImgPlaceholder.jpg"}
-                    alt={"Img not found"}
-                    sx={{ objectFit: "cover" }}
-                />
-
-                {/* Text Content */}
-                <CardContent>
-                    {/* Title + Organization */}
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
-                        <Typography
-                            variant="h6"
-                            component="div"
-                            sx={{ fontWeight: 600, mr: 1 }}
-                        >
-                            {event.title}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            {event.organizationLabel}
-                        </Typography>
-                    </Box>
-
-                    {/* Location + Time */}
-                    <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ mb: 1 }}
+                <Fade in={open}>
+                    <Card
+                
+                    sx={{
+                        width: 600,
+                        borderRadius: 3,
+                        boxShadow: 3,
+                        position: "absolute" as "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)"
+                    }}
                     >
-                    {event.location} • {event.time}
+                        {/* Top Image */}
+                        <CardMedia
+                            component="img"
+                            image={"/EventImgPlaceholder.jpg"}
+                            alt={"Img not found"}
+                            sx={{ objectFit: "cover", width:"100%", height:"auto" }}
+                        />
+
+                        {/* Text Content */}
+                        <CardContent>
+                            {/* Title + Organization */}
+                            <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
+                                <Typography
+                                    variant="h6"
+                                    component="div"
+                                    sx={{ fontWeight: 600, mr: 1 }}
+                                >
+                                    {event.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {event.organizationLabel}
+                                </Typography>
+                            </Box>
+
+                            {/* Location + Time */}
+                            <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ mb: 1 }}
+                            >
+                                {event.location} • {new Date(String(event.time)).toLocaleString("en-US", {
+                                dateStyle: "medium",
+                                timeStyle: "short"
+                                })}
+                            </Typography>
+
+                            {/* Description */}
+                            <Typography variant="body2" color="text.primary">
+                            {event.description}
+                            </Typography>
+                            
+                        </CardContent>
+                    </Card>
+                </Fade>
+        </Modal>
+
+        {/* Main Card */}
+        <Card
+        
+        sx={{
+            position: "relative",
+            zIndex:1,
+            maxWidth: 400,
+            borderRadius: 3,
+            boxShadow: 3,
+            overflow: "hidden",
+        }}
+        >
+            <CardActionArea onClick={handleOpen}>
+            {/* Top Image */}
+            <CardMedia
+                component="img"
+                height="200"
+                image={"/EventImgPlaceholder.jpg"}
+                alt={"Img not found"}
+                sx={{ objectFit: "cover" }}
+            />
+
+            {/* Text Content */}
+            <CardContent>
+                {/* Title + Organization */}
+                <Box sx={{ display: "flex", alignItems: "center", mb: 0.5 }}>
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{ fontWeight: 600, mr: 1 }}
+                    >
+                        {event.title}
                     </Typography>
-                </CardContent>
-                </CardActionArea>
-            </Card>
+                    <Typography variant="body2" color="text.secondary">
+                        {event.organizationLabel}
+                    </Typography>
+                </Box>
+
+                {/* Location + Time */}
+                <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mb: 1 }}
+                >
+                    {event.location} • {new Date(String(event.time)).toLocaleString("en-US", {
+                    dateStyle: "medium",
+                    timeStyle: "short"
+                    })}
+                </Typography>
+            </CardContent>
+            </CardActionArea>
+        </Card>
         </Box>
     )
 }
