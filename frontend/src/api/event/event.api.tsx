@@ -15,9 +15,13 @@ export async function getUserEventsApi(userId: String): Promise<GetUserEventsRes
     }
 }
 
-export async function getAllEventsApi() : Promise<GetAllEventsResponse | undefined> {
+export async function getAllEventsApi(userId: String) : Promise<GetAllEventsResponse | undefined> {
     try{
-        const response: AxiosResponse<GetAllEventsResponse> = await axios.get(`${API_BASE_URL}/events`);
+        const response: AxiosResponse<GetAllEventsResponse> = await axios.get(`${API_BASE_URL}/events`, {
+            params: {
+                user_id: userId
+            }
+        });
         return response.data;
     }catch(error){
         console.log('Error', error);

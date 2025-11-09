@@ -4,12 +4,12 @@ import { EventState } from "../enums/EventState.enum";
 import type GetAllEventsResponse from "../interfaces/api/response/GetAllEventsResponse";
 import type GetUserEventsResponse from "../interfaces/api/response/GetUserEvents";
 
-export async function getUserEvents(userId:string): Promise<GetUserEventsResponse>{
+export async function getUserEvents(userId: String): Promise<GetUserEventsResponse>{
     const userEventIds = await getUserEventsApi(userId);
     return userEventIds || {"appliedEventIds": []}
 }
-export async function getAllEvents(): Promise<GetAllEventsResponse>{
-    const allEvents = await getAllEventsApi();
+export async function getAllEvents(userId: String): Promise<GetAllEventsResponse>{
+    const allEvents = await getAllEventsApi(userId);
     return allEvents || {events: [{
         eventId: '-1',
         title: 'Error',
