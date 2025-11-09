@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { getAllRewards, getUserRewards } from "../../../services/reward.service";
 import type GetUserRewardsResponse from "../../../interfaces/api/response/GetUserRewardsResponse";
+import type { CookieValues } from "../../../interfaces/Cookies";
 
 const UserRewardsBoard: React.FC = () => {
 
