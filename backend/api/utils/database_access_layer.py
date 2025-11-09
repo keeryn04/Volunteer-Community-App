@@ -34,6 +34,51 @@ def add_volunteer_to_event(user_id: str, event_id: str):
     except Exception as e:
         print("Error adding volunteer to event:", e)
 
+def set_event_status(event_id: str, status: str):
+    db = get_db()
+    try:
+        result = db.Events.update_one(
+            {"eventId": event_id},
+            {"$set": {"currentState": status}}
+        )
+        if result.matched_count == 0:
+            print(f"No event found with ID {event_id}")
+            return False
+        print(f"Event {event_id} set to {status}!")
+        return True
+    except Exception as e:
+        print("Error updating event status:", e)
+        return False
+    
+def create_event(event_data: dict):
+    """
+    Insert a new event into the database.
+    """
+
+    db = get_db()
+    try:
+        db.Events.insert_one(event_data)
+        print(f"Event {event_data['eventId']} created successfully!")
+        return event_data
+    except Exception as e:
+        print("Error creating event:", e)
+        return None
+    
+def approve_event(event_id: str, points: int) -> bool:
+    """
+    Approve an event and set its point value.
+    Returns True if the update succeeded, False otherwise.
+    """
+    db = get_db()
+    try:
+        result = db.Events.update_one(
+            {"eventId": event_id},
+            {"$set": {"currentState": "Approved", "points": points}}
+        )
+        return result.modified_count > 0
+    except Exception as e:
+        print(f"Error approving event {event_id}: {e}")
+        return False
 
 # ------------------------------
 # Reward Access Layer
@@ -173,3 +218,24 @@ def get_user_points(user_id: str):
     except Exception as e:
         print("Error fetching user points:", e)
         return 0
+    
+def get_username(user_id: str):
+    db = get_db()
+    try:
+        user = db.Users.find_one({"userId": user_id})
+        return user.get("username", "") if user else ""
+    except Exception as e:
+        print("Error fetching user organization label:", e)
+        return 0
+    
+def add_points_to_user(user_id: str, points: int):
+    db = get_db()
+    try:
+        result = db.Users.update_one(
+            {"userId": user_id},
+            {"$inc": {"points": points}}
+        )
+        return result.modified_count > 0
+    except Exception as e:
+        print(f"Error adding points to user {user_id}: {e}")
+        return False

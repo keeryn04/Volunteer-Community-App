@@ -6,14 +6,17 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException
 from api.models.models import (
     EventApplyRequest,
+    EventCreateRequest,
     EventIDsResponse,
     EventResponse,
+    EventResponseModel,
     LoginResponse,
     PagesResponse,
     RewardClaimRequest,
     RewardsIDsResponse,
     RewardsResponse,
     USER_TYPE_PAGES,
+    UserDataResponse,
 )
 import api.utils.database_access_layer as db
 
@@ -88,6 +91,7 @@ def get_all_events(user_id: str):
             "description": event.get("description", ""),
             "location": event.get("location", ""),
             "time": event.get("time", ""),
+            "points": event.get("points", 0),
             "organizationLabel": event.get("organizationLabel", ""),
             "volunteers": event.get("volunteers", []),
             "currentState": event.get("currentState", ""),
@@ -95,7 +99,6 @@ def get_all_events(user_id: str):
         })
 
     return EventResponse(events=events_data)
-
 
 @router.post("/{user_id}/events/apply")
 def apply_for_event(data: EventApplyRequest, user_id: str):
@@ -106,6 +109,52 @@ def apply_for_event(data: EventApplyRequest, user_id: str):
         return {"message": "Volunteer successfully added to event."}
     except Exception:
         raise HTTPException(status_code=400, detail="Event Application Error")
+    
+@router.get("/{event_id}/events/complete")
+def set_event_complete(event_id: str):
+    """Set a event as complete."""
+    try:
+        db.set_event_status(event_id, "Completed")
+        return {"message": "Event successfully set to complete."}
+    except Exception:
+        raise HTTPException(status_code=400, detail="Event Completion Error")
+    
+@router.post("/{user_id}/events/create", response_model=EventResponseModel)
+def create_event_route(event: EventCreateRequest, user_id: str):
+
+    organization_label = db.get_username(user_id)
+    if not organization_label:
+        raise HTTPException(status_code=404, detail="Organization not found for user")
+    
+    #Generate a unique eventId
+    event_id = str(db.Events.count_documents({}) + 1)
+
+    event_doc = {
+        "eventId": event_id,
+        "title": event.title,
+        "description": event.description,
+        "location": event.location,
+        "time": event.time,
+        "points": 0,
+        "organizationLabel": organization_label,
+        "volunteers": [],
+        "currentState": "Pending",
+        "eventImg": event.eventImg,
+    }
+
+    created = db.create_event(event_doc)
+    if not created:
+        raise HTTPException(status_code=500, detail="Failed to create event")
+
+    return created
+
+@router.post("/{event_id}/events/approve")
+def approve_event_route(event_id: str, points: int):
+    """Route to approve an event and assign points."""
+    success = db.approve_event(event_id, points)
+    if not success:
+        raise HTTPException(status_code=500, detail="Failed to approve event")
+    return {"message": f"Event {event_id} approved with {points} points."}
 
 # ------------------------------
 # Reward Routes
@@ -127,7 +176,7 @@ def get_all_rewards():
     rewards_data = db.get_rewards()
     return RewardsResponse(rewards=rewards_data)
 
-@router.post("/{user_id}/rewards/claim")
+@router.get("/{user_id}/rewards/claim")
 def claim_reward(data: RewardClaimRequest, user_id: str):
     """Add a claimed reward to a user."""
     reward_id = data.rewardId
@@ -137,6 +186,32 @@ def claim_reward(data: RewardClaimRequest, user_id: str):
     except Exception:
         raise HTTPException(status_code=400, detail="Reward Claim Error")
 
+# ------------------------------
+# User Routes
+# ------------------------------
+@router.get("/{user_id}")
+def get_user(user_id: str):
+    """Get user's stats based on ID"""
+
+    user = db.get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return UserDataResponse(
+        username=user.get("username", ""),
+        hours=user.get("hours", 0),
+        points=user.get("points", 0)
+    )
+
+@router.get("/{user_id}/points")
+def add_user_points(user_id: str, points: int):
+    """Add points to user"""
+
+    db.add_points_to_user(user_id, points)
+    
+    return {"message": f"{points} points added to user {user_id}"}
+
+#Image conversion helper
 def convert_image_to_base64(image_data: Optional[bytes], content_type: str = "image/png") -> Optional[str]:
     if not image_data:
         return None

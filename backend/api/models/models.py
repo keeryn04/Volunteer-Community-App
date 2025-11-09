@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 from enum import Enum
 
 class Pages(str, Enum):
@@ -29,7 +29,8 @@ class Event(BaseModel):
     title: str
     description: str
     location: str
-    time: datetime
+    time: str
+    points: int
     organizationLabel: str
     volunteers: List[Volunteer]
     currentState: EventState
@@ -71,14 +72,25 @@ class RewardsResponse(BaseModel):
 class RewardClaimRequest(BaseModel):
     rewardId: str
 
-class RecommendRequest(BaseModel):
-    userId: str
-    appliedEventIds: List[str]
+class UserDataResponse(BaseModel):
+    username: str
+    hours: int
+    points: int
 
-class RecommendedEvent(BaseModel):
+class EventCreateRequest(BaseModel):
+    title: str
+    description: str
+    location: str
+    time: str
+    organizationLabel: str
+    eventImg: Optional[str] = None  #base64 string
+
+class EventResponseModel(BaseModel):
     eventId: str
     title: str
-    explanation: str
-
-class RecommendResponse(BaseModel):
-    recommendations: List[RecommendedEvent]
+    description: str
+    location: str
+    time: str
+    organizationLabel: str
+    currentState: str
+    eventImg: Optional[str] = None
