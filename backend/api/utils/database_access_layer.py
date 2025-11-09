@@ -66,7 +66,7 @@ def create_event(event_data: dict, user_id: str):
 
         db.Users.update_one(
             {"userId": user_id},
-            {"$push": {"createdEvents": event_data["eventId"]}}
+            {"$push": {"events": event_data["eventId"]}}
         )
         print(f"Event {event_data['eventId']} associated with user {user_id}!")
 

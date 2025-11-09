@@ -19,6 +19,7 @@ from api.models.models import (
     UserDataResponse,
 )
 import api.utils.database_access_layer as db
+from api.utils.database_client import get_db
 
 router = APIRouter()
 
@@ -124,7 +125,8 @@ def create_event_route(event: EventCreateRequest, user_id: str):
         raise HTTPException(status_code=404, detail="Organization not found for user")
     
     #Generate a unique eventId
-    event_id = str(db.Events.count_documents({}) + 1)
+    database = get_db()
+    event_id = str(database.Events.count_documents({}) + 1)
 
     event_doc = {
         "eventId": event_id,
@@ -134,12 +136,12 @@ def create_event_route(event: EventCreateRequest, user_id: str):
         "time": event.time,
         "points": 0,
         "organizationLabel": organization_label,
-        "volunteers": [],
+        "volunteers": [{"userId": user_id, "username": organization_label}],
         "currentState": "Pending",
         "eventImg": event.eventImg,
     }
 
-    created = db.create_event(event_doc)
+    created = db.create_event(event_doc, user_id)
     if not created:
         raise HTTPException(status_code=500, detail="Failed to create event")
 
