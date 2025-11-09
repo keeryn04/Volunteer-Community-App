@@ -137,7 +137,7 @@ def create_event_route(event: EventCreateRequest, user_id: str):
         "points": 0,
         "organizationLabel": organization_label,
         "volunteers": [{"userId": user_id, "username": organization_label}],
-        "currentState": "Pending",
+        "currentState": "Approved",
         "eventImg": event.eventImg,
     }
 
