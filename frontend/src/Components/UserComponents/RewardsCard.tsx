@@ -82,11 +82,11 @@ const RewardsCard: React.FC<RewardCardProps> = ({reward, redeemed, onRedeem}) =>
 
                 {/* Reward Image */}
                 <CardMedia
-                component="img"
-                height="200"
-                image={"/EventImgPlaceholder.jpg"}
-                alt={reward.title}
-                sx={{ objectFit: "cover" }}
+                    component="img"
+                    height="200"
+                    src={reward.imageURL?.toString() || "/RewardImgPlaceholder.jpg"}
+                    alt={reward.title}
+                    sx={{ objectFit: "cover" }}
                 />
 
                 {/* Points and Redeem Button */}

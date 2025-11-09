@@ -80,10 +80,7 @@ def get_all_events(user_id: str):
     
     events_data = []
     for event in filtered_events:
-        image_base64 = convert_image_to_base64(
-            event.get("eventImg"),
-            event.get("contentType", "image/png")
-        )
+        image_url = event.get("eventImg", "") #direct http reference
 
         events_data.append({
             "eventId": event.get("eventId", ""),
@@ -95,7 +92,7 @@ def get_all_events(user_id: str):
             "organizationLabel": event.get("organizationLabel", ""),
             "volunteers": event.get("volunteers", []),
             "currentState": event.get("currentState", ""),
-            "eventImg": image_base64
+            "eventImg": image_url
         })
 
     return EventResponse(events=events_data)
@@ -210,10 +207,3 @@ def add_user_points(user_id: str, points: int):
     db.add_points_to_user(user_id, points)
     
     return {"message": f"{points} points added to user {user_id}"}
-
-#Image conversion helper
-def convert_image_to_base64(image_data: Optional[bytes], content_type: str = "image/png") -> Optional[str]:
-    if not image_data:
-        return None
-    encoded = base64.b64encode(image_data).decode("utf-8")
-    return f"data:{content_type};base64,{encoded}"

@@ -58,7 +58,7 @@ const OrgEventCard: React.FC<EventCardProps> = ({event}) => {
                     {/* Top Image */}
                     <CardMedia
                         component="img"
-                        image={"/EventImgPlaceholder.jpg"}
+                        src={event.eventImg?.toString() || "/EventImgPlaceholder.jpg"}
                         alt={"Img not found"}
                         sx={{ objectFit: "cover", width:"100%", height:"auto" }}
                     />
@@ -166,7 +166,7 @@ const OrgEventCard: React.FC<EventCardProps> = ({event}) => {
                 <CardMedia
                     component="img"
                     height="200"
-                    image={"/EventImgPlaceholder.jpg"}
+                    src={event.eventImg?.toString() || "/EventImgPlaceholder.jpg"}
                     alt={"Img not found"}
                     sx={{ objectFit: "cover" }}
                 />
