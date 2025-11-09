@@ -9,7 +9,7 @@ services:
     ports: 
       - "5173:5173"
     volumes:
-      - ./Frontend:/app/frontend
+      - ./frontend:/app/frontend
       - /app/frontend/node_modules
     
     #Waits for the backend to start
@@ -30,7 +30,9 @@ services:
       - "8000:8000"
     volumes:
       - ./api:/app/api
+    env_file:
+      - ./backend/.env
 
     #Starts the backend server using the following command
-    command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
       

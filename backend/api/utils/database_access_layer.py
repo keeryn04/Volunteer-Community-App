@@ -1,18 +1,20 @@
-from .database_client import db
+from .database_client import get_db
 
-# Example: "volunteers" collection CRUD
-def get_all_volunteers():
-    """Fetch all volunteer documents."""
-    volunteers = list(db.volunteers.find({}))
-    return volunteers
+def test_fetch_events():
+    """Fetch all events from the 'events' collection and print them."""
 
-def add_volunteer(volunteer_data: dict):
-    """Insert a new volunteer document."""
-    result = db.volunteers.insert_one(volunteer_data)
-    return {"inserted_id": str(result.inserted_id)}
+    # Get the database instance
+    db = get_db()
 
-def delete_volunteer(volunteer_id):
-    """Delete a volunteer by ID."""
-    from bson import ObjectId
-    result = db.volunteers.delete_one({"_id": ObjectId(volunteer_id)})
-    return {"deleted_count": result.deleted_count}
+    try:
+        events = list(db.Events.find({}))  # 'Events' is the collection name
+
+        # Convert ObjectId to string for JSON serialization
+        for e in events:
+            if "_id" in e:
+                e["_id"] = str(e["_id"])
+
+        return events
+    
+    except Exception as e:
+        print("❌ Error fetching events:", e)
