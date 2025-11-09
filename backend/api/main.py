@@ -14,11 +14,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(router)
 
-# Test routes
-@app.get("/api/test")
-def get_test():
-    return {"message": "testing"}
-
-@app.get("/api/test/{param}")
-def get_test_param(param: str):
-    return {"message": f"test with param: {param}"}
+#Test code 
+@app.get("/")
+def get_health():
+    return "Backend Active!"
