@@ -10,6 +10,8 @@ import {
   Button,
 } from "@mui/material";
 import type Reward from "../../../interfaces/Reward";
+import { Cookies, useCookies } from "react-cookie";
+import type { CookieValues } from "../../interfaces/Cookies";
 
 type RewardCardProps = {
   reward: Reward;
@@ -19,6 +21,9 @@ const RewardsCard: React.FC<RewardCardProps> = ({ reward }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   return (
     <Box>
@@ -96,7 +101,7 @@ const RewardsCard: React.FC<RewardCardProps> = ({ reward }) => {
           <CardMedia
             component="img"
             height="200"
-            image={"/EventImgPlaceholder.jpg"}
+            image={reward.imageURL?.toString() || "/RewardImgPlaceholder.jpg"}
             alt={"Img not found"}
             sx={{ objectFit: "cover" }}
           />
