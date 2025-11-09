@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Card, CardMedia, CardContent, CardActionArea, Typography, Box, Button } from "@mui/material";
-import type Event from "../../interfaces/Event";
+import type Event from "../../../interfaces/Event";
 
 type EventCardProps = {
     event: Event
@@ -82,9 +82,6 @@ const EventCard: React.FC<EventCardProps> = ({event}) => {
                         <Typography variant="body2" color="text.primary">
                         {event.description}
                         </Typography>
-                        <Box sx={{display:"flex", justifyContent:"right"}}>
-                            <Button variant="contained" color="secondary">Apply</Button>
-                        </Box>
                         
                     </CardContent>
                 </Card>
