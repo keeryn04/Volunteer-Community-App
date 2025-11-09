@@ -30,7 +30,7 @@ def add_volunteer_to_event(user_id: str, event_id: str):
             {"eventId": event_id},
             {"$push": {"volunteers": {"userId": user_id, "username": username}}},
         )
-        print(f"✅ Volunteer {user_id} added to event {event_id}!")
+        print(f"Volunteer {user_id} added to event {event_id}!")
     except Exception as e:
         print("Error adding volunteer to event:", e)
 
@@ -52,17 +52,42 @@ def get_rewards():
 
 
 def add_reward_to_user(user_id: str, reward_id: str):
-    """Add a reward to a user's record."""
+    """Add a reward to a user's record and deduct points."""
     db = get_db()
     try:
+        #fetch reward to get point amount
+        reward = db.Rewards.find_one({"rewardId": reward_id})
+        if not reward:
+            print(f"Reward {reward_id} not found!")
+            return {"success": False, "message": "Reward not found."}
+
+        reward_points = reward.get("numPoints", 0)
+
+        #fetch user
+        user = db.Users.find_one({"userId": user_id})
+        if not user:
+            print(f"User {user_id} not found!")
+            return {"success": False, "message": "User not found."}
+
+        if user.get("points", 0) < reward_points:
+            print(f"User {user_id} does not have enough points!")
+            return {"success": False, "message": "Insufficient points."}
+
+        #update user and points
         db.Users.update_one(
             {"userId": user_id},
-            {"$push": {"rewards": reward_id}},
+            {
+                "$push": {"rewards": reward_id},
+                "$inc": {"points": -reward_points}
+            },
         )
-        print(f"✅ Reward {reward_id} added to user {user_id}!")
+
+        print(f"Reward {reward_id} added to user {user_id} and {reward_points} points deducted!")
+        return {"success": True, "message": "Reward redeemed successfully."}
+
     except Exception as e:
         print("Error adding reward to user:", e)
-
+        return {"success": False, "message": str(e)}
 
 # ------------------------------
 # User Access Layer
