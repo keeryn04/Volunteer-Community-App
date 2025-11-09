@@ -6,7 +6,7 @@ import type EventApplyRequest from '../../interfaces/api/request/EventApplyReque
 
 const API_BASE_URL: string = '/api'
 
-export async function getUserEvents(userId: string): Promise<GetUserEventsResponse | undefined> {
+export async function getUserEvents(userId: String): Promise<GetUserEventsResponse | undefined> {
     try{
         const response: AxiosResponse<GetUserEventsResponse> = await axios.get(`${API_BASE_URL}/${userId}/events`);
         return response.data;
