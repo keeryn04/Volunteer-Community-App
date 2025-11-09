@@ -5,7 +5,6 @@ from api.models.models import (
     EventApplyRequest,
     EventIDsResponse,
     EventResponse,
-    LoginRequest,
     LoginResponse,
     PagesResponse,
     RewardClaimRequest,
@@ -16,7 +15,6 @@ from api.models.models import (
 import api.utils.database_access_layer as db
 
 router = APIRouter()
-
 
 # ------------------------------
 # Login Routes
@@ -56,28 +54,24 @@ def get_user_events(user_id: str):
 @router.get("/events", response_model=EventResponse)
 def get_all_events(user_id: str):
     """Return filtered events based on user type and status."""
-    # Fetch all events from the database
     all_events = db.get_events()
+    user_type = db.get_user_type(user_id)
 
-    # Determine the user's type
-    user_type = get_user_type(user_id)
-
-    # Filter events based on user type
+    #filter events based on user type
     if user_type == "admin":
-        filtered_events = all_events  # Admin sees all events
+        filtered_events = all_events  #admin sees all events
     elif user_type == "organization":
-        user_event_ids = get_user_event_ids(user_id)
+        user_event_ids = db.get_user_event_ids(user_id) #org sees only theirs
         filtered_events = [
             e for e in all_events
             if e.get("eventId") in user_event_ids and e.get("currentState") in ["Approved", "Completed"]
         ]
-    else:  # Volunteer or regular user
+    else:  #volunteer user
         filtered_events = [
             e for e in all_events
             if e.get("currentState") in ["Approved", "Completed"]
         ]
-
-    # Convert event images to Base64
+    
     events_data = []
     for event in filtered_events:
         image_base64 = convert_image_to_base64(
@@ -139,3 +133,9 @@ def claim_reward(data: RewardClaimRequest, user_id: str):
         return {"message": "Reward successfully claimed."}
     except Exception:
         raise HTTPException(status_code=400, detail="Reward Claim Error")
+
+def convert_image_to_base64(image_data: Optional[bytes], content_type: str = "image/png") -> Optional[str]:
+    if not image_data:
+        return None
+    encoded = base64.b64encode(image_data).decode("utf-8")
+    return f"data:{content_type};base64,{encoded}"
