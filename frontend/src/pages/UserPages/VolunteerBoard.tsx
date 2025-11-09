@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../Components/GeneralComponents/Header";
 import { useState, useEffect } from "react";
-import { getAllEvents } from "../../services/event.service";
+import { getAllEvents, getUserEvents } from "../../services/event.service";
 
 import { Grid, Box } from "@mui/material";
 
@@ -15,16 +15,31 @@ import type { CookieValues } from "../../interfaces/Cookies";
 const VolunteerBoard: React.FC = () => {
 
   const [loadedEvents, setLoadedEvents] = useState<Event[]>([]);
+  const [userEventIds, setUserEventIds] = useState<String[]>([]);
+  const [reloadEvents, setReloadEvents] = useState<boolean>(false);
   const [cookies, setCookie, removeCookie] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
+  const fetchEvents = async () => {
       const userId = cookies.USER_ID;
       const events: Event[] = (await getAllEvents(userId)).events
       setLoadedEvents(events);
-    }
+  }
+  const fetchUserEvents = async () => {
+    const userId = cookies.USER_ID;
+    const userEventIds: String[] = (await getUserEvents(userId)).appliedEventIds
+    setUserEventIds(userEventIds);
+  }
+  const triggerReloadEvents = () => {
+    setReloadEvents(true);
+  }
+
+  useEffect(() => {
     fetchEvents();
+    fetchUserEvents();
   }, []);
+  useEffect(() => {
+    if(reloadEvents) fetchUserEvents();
+  }, [reloadEvents])
 
   return (
     <div>
@@ -33,11 +48,14 @@ const VolunteerBoard: React.FC = () => {
         <Box width="100%" height="100%" sx={{display:"flex", justifyContent:"center"}}>
           <Grid container rowSpacing={8} columnSpacing={12} justifyContent="center">
             {loadedEvents.length > 0 && loadedEvents.map((item, index) => (
-              <Grid key={index}>
-                <EventCard
-                  event={item}
-                />
-              </Grid>
+              !userEventIds.includes(item.eventId) && ( //Only load the card if the user doesn't already have it
+                <Grid key={index}>
+                  <EventCard
+                    event={item}
+                    onReloadEvents={triggerReloadEvents}
+                  />
+                </Grid>
+              )
             ))}
           </Grid>
         </Box>

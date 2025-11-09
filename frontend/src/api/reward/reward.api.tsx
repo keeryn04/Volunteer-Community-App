@@ -10,7 +10,7 @@ export async function getUserRewardsApi(userId: String): Promise<GetUserRewardsR
         const response = await axios.get(`${API_BASE_URL}/${userId}/rewards`)
         return response.data;
     }catch(error){
-        console.error('Error', error);
+        console.log('Error', error);
     }
 }
 export async function getAllRewardsApi(): Promise<GetAllRewardsResponse | undefined>{
@@ -18,7 +18,7 @@ export async function getAllRewardsApi(): Promise<GetAllRewardsResponse | undefi
         const response = await axios.get(`${API_BASE_URL}/rewards`)
         return response.data;
     }catch(error){
-        console.error('Error', error);
+        console.log('Error', error);
     }
 }
 export async function redeemRewardApi(userId: String, rewardId: String){
@@ -29,6 +29,6 @@ export async function redeemRewardApi(userId: String, rewardId: String){
         const response = await axios.post(`${API_BASE_URL}/${userId}/rewards/claim`, requestBody);
         return response.data;
     }catch(error){
-        console.error('Error', error);
+        console.log('Error', error);
     }
 }

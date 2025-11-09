@@ -28,5 +28,5 @@ export async function getAllEvents(userId: String): Promise<GetAllEventsResponse
 }
 export async function applyToEvent(userId: String, eventId: String): Promise<boolean>{
     const applyResponse = await applyToEventApi(userId, eventId);
-    return applyResponse === HttpStatusCode.Accepted
+    return applyResponse === HttpStatusCode.Ok
 }
