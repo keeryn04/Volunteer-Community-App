@@ -9,7 +9,7 @@ interface HeaderProps {
   availablePages?: string[];
 }
 
-const defaultPages = ["volunteer", "rewards", "profile", "my events", "create event"];
+const defaultPages = ["volunteer", "rewards", "profile", "myEvents", "createEvent"];
 import { getPages } from "../../services/user.service.tsx";
 import type { Pages } from "../../enums/Pages.enum.tsx";
 import type { CookieValues } from "../../interfaces/Cookies.tsx";
@@ -21,6 +21,8 @@ const Header: React.FC = () => {
   // Converts a page string (from backend) into display-friendly format (e.g. "my events" → "My Events")
   const formatDisplayName = (page: string) =>
     page
+      .replace(/([a-z])([A-Z])/g, "$1 $2") // add space before capitals in camelCase
+      .replace(/[_-]+/g, " ")              // replace underscores/dashes with spaces
       .split(" ")
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
