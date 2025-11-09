@@ -11,9 +11,9 @@ class Pages(str, Enum):
     CREATE_EVENTS = "createEvents"
 
 USER_TYPE_PAGES = {
-    "volunteer": [Pages.VOLUNTEER, Pages.REWARDS, Pages.PROFILE, Pages.MY_EVENTS],
+    "volunteer": [Pages.VOLUNTEER, Pages.REWARDS, Pages.PROFILE],
     "admin": [Pages.VOLUNTEER],
-    "organization": [Pages.VOLUNTEER, Pages.CREATE_EVENTS]
+    "organization": [Pages.MY_EVENTS, Pages.CREATE_EVENTS]
 }
 
 class EventState(str, Enum):
