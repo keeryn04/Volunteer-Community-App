@@ -4,13 +4,13 @@ from api.models.models import USER_TYPE_PAGES
 router = APIRouter()
 
 #login routes
-@router.post("/user/login", response_model=LoginResponse)
-def login_response(data: LoginRequest):
+@router.get("/user/login", response_model=LoginResponse)
+async def login_response(username: str, password: str):
     #database call
     fetched_username = "JohnDoe123"
     fetched_password = "password"
 
-    if data.username == fetched_username and data.password == fetched_password:
+    if username == fetched_username and password == fetched_password:
         user_id = 1
         return LoginResponse(userId=user_id)
     
