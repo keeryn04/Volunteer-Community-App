@@ -1,5 +1,4 @@
 import type Event from "./Event";
-import type Reward from "./Reward";
 
 export interface User {
     username: String,
@@ -9,8 +8,8 @@ export interface User {
     userType: UserType
 }
 export interface Volunteer extends User{
-    rewards: Reward[],
-    appliedEvents: Event[],
+    claimedRewardIds: String[],
+    appliedEventIds: String[],
     hours: Number,
     points: Number,
 }
