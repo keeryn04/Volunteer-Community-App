@@ -8,6 +8,11 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from "@mui/x-date-pickers";
 
 import type Event from "../../interfaces/Event";
+import { useCookies } from "react-cookie";
+import type { CookieValues } from "../../interfaces/Cookies";
+import axios from "axios";
+import { getUserDetails } from "../../services/user.service";
+import type GetUserResponse from "../../interfaces/api/response/GetUserResponse";
 
 const textFieldStyle = {
     width:"350px",
@@ -28,8 +33,8 @@ const CreateEvent: React.FC = () => {
         description:"",
         location:"",
         time:""
-
     })
+    const [cookies] = useCookies<'USER_ID', CookieValues>(['USER_ID']);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -42,6 +47,19 @@ const CreateEvent: React.FC = () => {
             setFormData((prev) => ({ ...prev, eventTime: formatted }));
         }
     };
+    const createEvent = async() => {
+        const userId = cookies.USER_ID;
+        if(!formData || !userId) {
+            console.log("Invalid form data or userId");
+            return;
+        }
+        const userInfo: GetUserResponse = await getUserDetails(userId);
+        const response = axios.post(`/api/${userId}/events/create`, {
+            ...formData,
+            organizationLabel: userInfo.username,
+        });
+        console.log("Create event response: ", response);
+    }
 
     return (
     <div>
@@ -102,7 +120,7 @@ const CreateEvent: React.FC = () => {
                 <Typography variant="body2" color="text.secondary">(Optional)</Typography>
                 
                 <Box width="100%" sx={{display:"flex", justifyContent:"right"}}>
-                    <Button variant="contained" sx={{marginTop:"10px"}} onClick={() => {console.log(formData)}}>Submit for Approval</Button>
+                    <Button variant="contained" sx={{marginTop:"10px"}} onClick={() => {createEvent()}}>Submit for Approval</Button>
                 </Box>
                 
             </Box>
