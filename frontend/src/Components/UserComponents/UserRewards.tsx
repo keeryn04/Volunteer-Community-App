@@ -5,7 +5,7 @@ import UserRewardsBoard from "./UserRewardsBody/UserRewardsBoard";
 const UserRewards: React.FC = () => {
   return (
     <div>
-        <Typography variant="h5" sx={{ mb: 2, color:"white" }}>
+        <Typography variant="h5" sx={{ mb: 2}}>
             My Rewards
         </Typography>
         <UserRewardsBoard />
